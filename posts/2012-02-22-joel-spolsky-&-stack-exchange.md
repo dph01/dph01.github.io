@@ -1,0 +1,10 @@
+---
+layout: 
+date: '2012-02-22'
+title:  Joel Spolsky & Stack Exchange
+permalink: joel-spolsky-stack-exchange
+type: 
+---
+
+<p><span style="">Went to an interesting talk this week at Cambridge Network - Joel Spolsky from Stack Exchange, Joel on Software, etc fame. Stack Exchange has 20 million unique visitors per month, only 50 employees &amp; Google use Stack Overflow as a benchmark: it isn't allowed to slip down the rankings after an algo tweak. Nice position to be in!</span></p>
+  
