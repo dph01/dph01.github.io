@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+  <channel>
+    <title/>
+    <description/>
+    <link/>
+    <pubDate>2014-02-28</pubDate>
+    <item>
+      <title>Index</title>
+      <link>/</link>
+      <description>&lt;h1 id="toc_0"&gt;Hello World =D&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A profound quote.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id="toc_1"&gt;Fruits I like&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;apples&lt;/li&gt;
+&lt;li&gt;oranges&lt;/li&gt;
+&lt;li&gt;watermelons&lt;/li&gt;
+&lt;li&gt;tomatoes&lt;/li&gt;
+&lt;li&gt;avocados&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+  </channel>
+</rss>
