@@ -1,0 +1,14 @@
+title : Damian Helme
+tagline: Blog on tech stuff ...
+author :
+  name : Damian Helme
+  email : tech@damianhelme.com
+  github : dph01
+  twitter : damianhelme
+  feedburner : feedname
+
+navigation :
+  - projects.md
+  - about.md
+  
+ 
