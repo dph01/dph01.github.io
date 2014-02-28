@@ -3,7 +3,7 @@ title: Home
 description:
 layout: index
 ---
-{{# posts.paginator }}
+{{# post.paginator }}
 <div class="post">
   <h2 class="title"><a href="{{url}}">{{title}}</a> </h2>
   <div>
@@ -19,17 +19,17 @@ layout: index
   </div>
 </div>
 <hr/>
-{{/ posts.paginator }}
+{{/ post.paginator }}
 
 <div class="pagination">
   <ul>
-  {{#posts.paginator_navigation}}
+  {{#post.paginator_navigation}}
     {{#is_active_page}}
       <li class="active"><a href="{{url}}">{{name}}</a></li>
     {{/is_active_page}}
     {{^is_active_page}}
       <li><a href="{{url}}">{{name}}</a></li>
     {{/is_active_page}}
-  {{/posts.paginator_navigation}}
+  {{/post.paginator_navigation}}
   </ul>
 </div>
