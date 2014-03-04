@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title></title>
+<title>Bootstrap Navbar Dropdowns and Lift&#39;s Menu Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Damian Helme">
 
@@ -72,56 +72,18 @@
 <!-- 		<div class="container-narrow"> -->
 		<div class="row">
 
-			<div class=span12><div class="row-fluid">
-  <div class="span12">
-      <div class="_root">
-        <h3 class="title"><a href="/about">About Me</a> <span class="date"></span></h3>
-
-        <div class="summary">
-<p>I'm currently running a software development company producing web applications. I specialise in the emerging technologies of Scala and Lift to deliver secure, scalable, highly interactive applications that are faster to build and easier to maintain than with other web technologies.</p>
-
-<p>I spread my time between developing my own products and working on small-scale, short-term contracts for external clients. If you need someone to temporarily bolster your Scala development team (e.g. to fill the gap while recruiting new staff, an extra pair of hands to cope with a spike in feature demands, etc.), then please get in touch.</p>
-
-<p>With over 20 years of industry experience, I've written software in fields as diverse as Investment Banking, Financial Analysis, Oil and Gas Project Management, Satellite Image Processing, GIS Systems, and TV &amp; Film Production Management. </p>
-
-<p>I've worked at various technical and managerial levels including heading up a department of 20+ developers. I cut my teeth on C and Unix, progressed through C++ and Java and am now thoroughly enjoying the conciseness, elegance and expressiveness of Scala.</p>
-
-<p>I'm based in Cambridge, UK, working in and around Cambridge, London and the South East.</p>
-
-<p>Check out my <a href="http://uk.linkedin.com/pub/damian-helme/2/4ba/9">LinkedIn Page</a> for a fuller biog.</p>
-
-<p>Contact: <br> tech [at] damianhelme.com.</p>
+			<div class=span12>
+<div class="page-header">
+  <h1>Bootstrap Navbar Dropdowns and Lift&#39;s Menu Builder  </h1>
 </div>
 
-        <div class="more">
-          <a href="/about" class="btn btn-small">read more..</a>
-        </div>
-      </div>
-      <div class="_root">
-        <h3 class="title"><a href="/archive">Archive</a> <span class="date"></span></h3>
-
-        <div class="summary"></div>
-
-        <div class="more">
-          <a href="/archive" class="btn btn-small">read more..</a>
-        </div>
-      </div>
-      <div class="_root">
-        <h3 class="title"><a href="/categories">Categories</a> <span class="date"></span></h3>
-
-        <div class="summary">
-<ul class="tag_box inline"></ul>
-</div>
-
-        <div class="more">
-          <a href="/categories" class="btn btn-small">read more..</a>
-        </div>
-      </div>
-      <div class="_root">
-        <h3 class="title"><a href="/">Home</a> <span class="date"></span></h3>
-
-        <div class="summary ellipsis">
-<p>Here's announcing a little utility I wrote to convert Lift's Menu.builder output into a nav bar with drop downs styled with Twitter's Bootstrap libraries.</p>
+<div class="row-fluid post-full">
+  <div class="span8">
+<!--     <div class="date"> -->
+<!--       <span>2012-02-13</strong> -->
+<!--     </div> -->
+    <div class="content">
+      <p>Here's announcing a little utility I wrote to convert Lift's Menu.builder output into a nav bar with drop downs styled with Twitter's Bootstrap libraries.</p>
 
 <p>Using this utility it's easy to generate a nav bar from your SiteMap that looks like:
 <a href="/assets/media/tbnav.png"><img width="500" src="/assets/media/tbnav.png"></a>
@@ -130,13 +92,14 @@
 <p>In particular, the features I'm looking to recreate here are:</p>
 
 <ul>
-<li>The nav-bar sits at the top, with the user navigation options (e.g. Login, logout, etc) and held over to the right. Once the user is logged in the Logout, Change Password, etc options are on a drop-down menu whose root value is the name of the logged-in user.</li>
-<li>The man nav options are held over the the left.</li>
+<li>The nav-bar sits at the top, with the user navigation options (e.g. Login, logout, etc) and held over to the right. Once the user is logged in the&nbsp;Logout, Change Password, etc options are on a drop-down menu whose root value is the name of the logged-in user.</li>
+<li>The man nav options&nbsp;are held over the the left.</li>
 <li>An arbitrary number of the main nav options may be menu drop-downs and are easily configured using SiteMap 'submenu's</li>
 </ul>
+
 <p>The utility is available to download <a href="https://github.com/dph01/lift-TBUtils">https://github.com/dph01/lift-TBUtils</a></p>
 
-<p>An example project using the library is available for download here: <a href="https://github.com/dph01/lift-TBNavbarTemplate">https://github.com/dph01/lift-TBNavbarTemplate</a>. </p>
+<p>An example project using the library is available for download here: <a href="https://github.com/dph01/lift-TBNavbarTemplate">https://github.com/dph01/lift-TBNavbarTemplate</a>.&nbsp;</p>
 
 <p>You can see a running version of this application at <a href="http://www.damianhelme.com/tbnav">www.damianhelme.com/tbnav</a></p>
 
@@ -144,53 +107,81 @@
 
 <p><script src="https://gist.github.com/1817391.js?file=gistfile1.scala"></script></p>
 
-</div>
+<p>The menus are split left and right by defining two LocGroups: 'main' are the menu items held over the left, &amp; 'user' are the menu items held to the right. Note that because we're using the Login and SignUp Locs that comes with ProtoUser, we set the LocGroup in our User object (User.scala):</p>
 
-        <div class="more">
-          <a href="/" class="btn btn-small">read more..</a>
-        </div>
-      </div>
-      <div class="_root">
-        <h3 class="title"><a href="/pages">Pages</a> <span class="date"></span></h3>
+<script src="https://gist.github.com/1817453.js"> </script>
 
-        <div class="summary">
-<ul>
-<li><a href="/about">About Me</a></li>
-  
-  
-    <li><a href="/archive">Archive</a></li>
-  
-  
-    <li><a href="/categories">Categories</a></li>
-  
-  
-    <li><a href="/">Home</a></li>
-  
-    <li class="active"><a href="/pages" class="active">Pages</a></li>
-  
-  
-  
-    <li><a href="/projects">Projects</a></li>
-  
-  
-    <li><a href="/tags">Tags</a></li>
-  
-</ul>
-</div>
+<p>The nav bar is created in the html by wrapping the Menu.builder snippet with a call to TBNav.menuToTBNav:</p>
 
-        <div class="more">
-          <a href="/pages" class="btn btn-small">read more..</a>
-        </div>
-      </div>
-    
+<script src="https://gist.github.com/1817530.js"> </script>
+
+<p>Further info on using the TBNav utility is on the github page&nbsp;<a href="https://github.com/dph01/lift-TBUtils">https://github.com/dph01/lift-TBUtils</a>.</p>
+
+<p>Please leave comments/thoughts/suggestions/questions etc!</p>
+  
+
+    </div>
+    <!--
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      <li>
+        <a href="/categories#code-ref">code <span>3</span></a>
+      </li>
+    </ul>
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      <li>
+        <a href="/tags#scala-ref">scala <span>3</span></a>
+      </li>
+      <li>
+        <a href="/tags#lift-ref">lift <span>3</span></a>
+      </li>
+    </ul>
+      -->
+    <hr>
     <div class="pagination">
       <ul>
-          <li class="active"><a href="/index/1">1</a></li>
-          <li><a href="/index/2">2</a></li>
+          <li class="prev"><a href="/diy-lift-crud-an-alternative-to-crudify" title="DIY Lift CRUD - an alternative to CRUDify">&larr; Previous</a></li>
+
+          <li><a href="/archive">Archive</a></li>
+
+          <li class="next disabled"><a>Next &rarr;</a>
       </ul>
     </div>
+    <hr>
+    <div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'damianhelme'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
   </div>
+    <div class="span4"> 
+    <h4>Published</h4>
+    <div class="date"><span>2012-02-13</span></div>
+        <br>
+    <h4>Categories</h4>
+ 
+    <ul class="tag_box">
+    <li><a href="/categories#code-ref">code <span>3</span></a></li>
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    <li><a href="/tags#scala-ref">scala <span>3</span></a></li>
+    <li><a href="/tags#lift-ref">lift <span>3</span></a></li>
+    </ul>
+    </div>
 </div>
+
 </div>
 
 			<hr>

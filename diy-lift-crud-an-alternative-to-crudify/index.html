@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DIY Lift CRUD - an alternative to CRUDify</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Damian Helme">
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<!-- Le styles -->
+<link href='/assets/stylesheets/bootstrap-06b32145fec588a12bca0410676d2d88.css' type='text/css' rel='stylesheet' media='all'>
+<link href='/assets/stylesheets/style-c0cbe6c00d4e2828bd7f77daf8de27c2.css' type='text/css' rel='stylesheet' media='all'>
+<link href='/assets/stylesheets/main-31f7578455fce02394da9d88b2105cac.css' type='text/css' rel='stylesheet' media='all'>
+<link href='/assets/stylesheets/google_prettify/sons-of-obsidian-afb0925bfa2d994f17dab93e13fbf999.css' type='text/css' rel='stylesheet' media='all'>
+<!-- Le fav and touch icons -->
+<!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+</head>
+
+<body>
+
+	<div class="container main">
+
+		<!-- Start Header-->
+		<div class="row">
+			<div class="span5 logo">
+				<a href="/">
+					<h1 class="logo-title">Damian Helme's Blog</h1>
+				</a> <span class="slogan">Thoughts, projects, info, etc ...</span>
+			</div>
+			<div class="span7">
+				<div class="row">
+
+					<div class="span7 customer_service">
+
+						<h4>
+							<small>For consultancy services : <strong>tech@damianhelme.com</strong></small>
+						</h4>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- End Header-->
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="container-narrow">
+<!-- 					<a class="brand" href="/">Damian Helme</a> -->
+					<ul class="nav"> 
+  <li><a href="/projects">Projects</a></li>
+
+  
+  <li><a href="/about">About Me</a></li>
+
+ 
+					</ul>
+				</div>
+			</div>
+		</div>
+
+    <hr>
+<!-- 		<div class="container-narrow"> -->
+		<div class="row">
+
+			<div class=span12>
+<div class="page-header">
+  <h1>DIY Lift CRUD - an alternative to CRUDify  </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span8">
+<!--     <div class="date"> -->
+<!--       <span>2012-07-21</strong> -->
+<!--     </div> -->
+    <div class="content">
+      <p>This article describes a simple approach for creating your own CRUD (Create, Read, Update, Delete) database screens in 
+<a href="http://liftweb.net/">Lift</a>.</p>
+
+<h3 id="toc_0">Why build your own CRUD screens?</h3>
+
+<p>Lift has a useful trait, CRUDify, that automatically adds CRUD functionality to any class.<br>
+CRUDify is useful for rapid prototyping and can even be deployed to production where basic functionality is sufficient. </p>
+
+<p>You can customise much of the default behaviour by overriding the CRUDify methods. 
+However, there is a practical limit to how far you can go with the customisation.</p>
+
+<p>When your requirements diverge too much from the default CRUDify functionality, 
+you can easily find yourself trying to coerce CRUDify to perform in ways in which it was not designed to perform. 
+This can quickly lead to bloated, convoluted code that is hard to maintain. 
+At this point it is often easier to abandon CRUDify and write your CRUD screens from the ground up.</p>
+
+<h3 id="toc_1">What is covered?</h3>
+
+<p>This article describes a simple approach for implementing a customised CRUD application.<br>
+It covers how to organise your application into folders, files, classes, and methods.  A naming convention is 
+provided for these artifacts as well as a simple model illustrating allowable screen transitions.  </p>
+
+<p>The approach is demonstrated with an example consisting of code for a simple CRUD application with a single database entity called Event. 
+Event contains the single field &#39;eventName&#39;. </p>
+
+<p>This article also suggests coding patterns that can be used for implementation challenges 
+such managing state on the server between successive page requests and using CSS Selector Transforms 
+to efficiently render data as HTML.</p>
+
+<p>The example uses the Lift Mapper trait to read and write data from the database.<br>
+However, this approach could also equally easily use Lift&#39;s Record library or any other ORM.</p>
+
+<h3 id="toc_2">Prerequisites</h3>
+
+<p>This article assumes that the reader is familiar with basic Lift concepts.</p>
+
+<p>As a minimum, you need to be comfortable with the techniques covered in Chapters 1-4 &amp; 7 of <a href="http://stable.simply.liftweb.net/">Simply Lift</a>
+or the first eight chapters of <a href="http://exploring.liftweb.net">Exploring Lift</a>, up to the section on Mapper.  </p>
+
+<h3 id="toc_3">Download the code</h3>
+
+<p>You can download the code discussed in this article from <a href="http://www.github.com/dph01/lift-CRUDBasic">www.github.com/dph01/lift-CRUDBasic</a></p>
+
+<h3 id="toc_4">Running Version</h3>
+
+<p>A running version of this code can be seen at <a href="http://www.damianhelme.com/crudbasic">www.damianhelme.com/crudbasic</a></p>
+
+<h3 id="toc_5">Overview</h3>
+
+<p>The user interacts with each data entity with separate HTML pages for each of the following operations: </p>
+
+<ul>
+<li>Creating a new instance</li>
+<li>Listing all existing instances</li>
+<li>Editing an existing instance</li>
+<li>Viewing (i.e. read only) an existing instance </li>
+<li>Deleting an existing instance.</li>
+</ul>
+
+<p>The diagram below shows the allowable page transitions for the Event example. 
+The screen flow is entered through New Event or List Events. Navigation to the View, Edit, and Delete pages are through links on one of the other pages.</p>
+
+<p><img src="/assets/media/CRUDBasicScreenFow.gif" alt="Screen Flow"></p>
+
+<p>The code is oragnised into a model file, a snippet file, and a series of HTML templates as shown below:</p>
+
+<p><img src="/assets/media/folders.gif" alt="Folder Structure"></p>
+
+<h3 id="toc_6">Model</h3>
+
+<p>For the sake of this example, Lift&#39;s Mapper class is used to manage database access. Each entity has its own Scala file in the model package.
+For example, the code for the Event entity (in /src/main/scala/code/model/Event.scala) is: </p>
+
+<pre><code>class Event extends LongKeyedMapper[Event] 
+  with IdPK {
+    def getSingleton = Event 
+
+    object eventName extends MappedString(this, 30) 
+        with ValidateLength {
+      override def validations = 
+        valMinLen(3, &quot;Event name must contain at least 3 characters.&quot;) _ ::
+          super.validations
+    }
+}
+
+object Event extends Event 
+  with LongKeyedMetaMapper[Event] {}
+</code></pre>
+
+<p>A simple validation rule was added to help test handling of form submission failures, which will be discussed later.</p>
+
+<h3 id="toc_7">HTML</h3>
+
+<p>The HTML pages for manipulating entities are derived from five Lift templates.
+For the Event entity they are:</p>
+
+<ul>
+<li>createevent.html</li>
+<li>listevent.html</li>
+<li>editevent.html</li>
+<li>viewevent.hmtl</li>
+<li>deleteevent.hmtl</li>
+</ul>
+
+<p>The templates reside in sub-directories of src/main/webapp. There is one directory for each entity.
+ For instance, the templates for Event are in: src/main/webapp/event. </p>
+
+<p>Access to these pages are defined in the SiteMap in Boot.scala:</p>
+
+<pre><code>Menu(&quot;Create Event&quot;) /  &quot;event&quot; / &quot;createevent&quot;,
+Menu(&quot;List Events&quot;) /  &quot;event&quot; / &quot;listevent&quot;,
+Menu(&quot;Edit Event&quot;) /  &quot;event&quot; / &quot;editevent&quot; &gt;&gt; Hidden ,
+Menu(&quot;View Event&quot;) /  &quot;event&quot; / &quot;viewevent&quot; &gt;&gt; Hidden,
+Menu(&quot;Delete Event&quot;) /  &quot;event&quot; / &quot;deletevent&quot; &gt;&gt; Hidden,
+</code></pre>
+
+<p>editevent, viewevent, deleteevent are hidden menu items because access to 
+these pages is via links on other pages. </p>
+
+<p>Note that there is a redundant &#39;event&#39; in the path. One could have just had /event/create and /event/edit, however, having &#39;event&#39; repeated in the filename (i.e. createevent) allows you to easily 
+distinguish between multiple open files in an IDE such as Eclipse.</p>
+
+<p>The contents of each of the HTML template is given below adjacent to the corresponding snippet.</p>
+
+<h3 id="toc_8">Snippet</h3>
+
+<p>Each entity has an &#39;Ops&#39; (short for CRUD Operations) snippet class.</p>
+
+<p>The Ops snippet class for each entity lives in its own file within the snippet package. </p>
+
+<p>For the Event entity this is src/main/scala/code/snippet/EventOps.scala. </p>
+
+<p>This class contains a single render method for each HTML template. The general structure of the class is as follows:</p>
+
+<pre><code>class EventOps {
+  def create = { ... }
+  def edit = { ... }
+  def list = { ... }
+  def view = { ... }
+  def delete = { ... }
+}
+</code></pre>
+
+<h3 id="toc_9">The form processing lifecyle</h3>
+
+<p>When a user types a URL of a form into a browser (e.g. http://localhost:8080/event/createevent), the browser creates and sends a HTTP GET request to the server for the specified resource. </p>
+
+<p>Lift returns a HTML form to the browser with the &#39;action&#39; attribute set to the URL the user has just requested.</p>
+
+<pre><code>&lt;form action=&quot;/event/createevent&quot; method=&quot;post&quot;&gt;
+ ...
+&lt;/form&gt;
+</code></pre>
+
+<p>When the form is submitted,
+the browser creates and sends a HTTP POST request to the same URL including the form data in the body of the request. </p>
+
+<p>Lift developers have to decide what to return to the user in response to the POST.</p>
+
+<p>Within the context of this approach, use the following convention: </p>
+
+<ul>
+<li>If the form validation fails (e.g. the name field contains less than three characters), return the same HTML form again with the 
+input fields populated with the content that the user submitted. 
+If the user clicks submit again the browser sends another POST request and the
+cycle continues.</li>
+<li>If the form processing succeeds, redirect the browser to the
+next page in the work-flow, which, in our case, is the List Events page.</li>
+</ul>
+
+<p>When a form is processed, the snippet behind the form is therefore invoked at least twice; 
+once for the initial GET request and once for every subsequent POST request.</p>
+
+<h3 id="toc_10">Managing State</h3>
+
+<p>Each &#39;Ops&#39; snippet class uses a RequestVar to pass the server-side 
+state between successive HTML page requests. For the Event instance, this is declared as:</p>
+
+<pre><code>  object eventRV extends RequestVar[Event](Event.create)
+</code></pre>
+
+<p>RequestVar is used to pass Event instances between page requests in the following cases:</p>
+
+<ul>
+<li>From the initial GET request of a create or edit form to the subsequent 
+POST request that processes the submitted data (and also between successive POST requests if they
+occur)</li>
+<li>From the list page to a delete, view, or edit page</li>
+<li>From a view page to an edit page</li>
+</ul>
+
+<p>The RequestVar object is declared in a scope in which the related &#39;Ops&#39; class method has access .
+In this example the object is within the class scope, but it could also have been declared within file scope. 
+In some more complex use cases file scope would be necessary to facilitate 
+communication between multiple &#39;Ops&#39; classes. 
+Examples of such use cases will be provided in a future blog post. </p>
+
+<p>For a more detailed discussion of RequestVars, see my blog post:
+<a href="http://tech.damianhelme.com/understanding-lifts-requestvars">Understanding Lift&#39;s RequestVars</a>.</p>
+
+<h3 id="toc_11">Create</h3>
+
+<p>Events are created through the createevent.html template:</p>
+
+<pre><code>&lt;div data-lift=&quot;lift:surround?with=default;at=content&quot;&gt;
+  &lt;h2 class=&quot;alt&quot;&gt;New Event&lt;/h2&gt;
+  &lt;div data-lift=&quot;EventOps.create?form=post&quot;&gt;
+    &lt;span id=&quot;hidden&quot;&gt;&lt;/span&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+          &lt;td&gt;Event Name&lt;/td&gt;
+          &lt;td&gt;&lt;input id=&quot;eventname&quot; type=&quot;text&quot; /&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+     &lt;/table&gt;
+    &lt;input id=&quot;submit&quot; type=&quot;submit&quot; /&gt; &lt;br /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The corresponding snippet render method is:</p>
+
+<pre><code>def create = {
+  val event = eventRV.is                             
+  &quot;#hidden&quot; #&gt; SHtml.hidden(() =&gt; eventRV(event) ) &amp; 
+  &quot;#eventname&quot; #&gt; SHtml.text(eventRV.is.eventName,   
+              name =&gt; eventRV.is.eventName(name) ) &amp; 
+  &quot;#submit&quot; #&gt; SHtml.onSubmitUnit(processSubmit)     
+}
+</code></pre>
+
+<p>Most of this template is standard Lift form and snippet processing that&#39;s described in detail 
+in Simply Lift and Exploring Lift.  </p>
+
+<p>When the user sends the initial GET request on createevent.html and line (2) of the create snippet method is executed, 
+the eventRV.is method is called for
+the first time on this eventRV instance. 
+Since eventRV has not been initialised, eventRV initialises itself with a new Event instance.
+The Event instance is the result of calling Event.create which is the default function specified when eventRV is declared.</p>
+
+<p>If create is called on a POST request, 
+which would occur on a form reload after validation has failed, 
+eventRV.is returns the event that was previously set by the SHtml.hidden function at line (3). </p>
+
+<p>SHtml.hidden inserts a hidden input field into the HTML page and registers an associated 
+server-side function <code>() =&gt; eventRV(event)</code> that Lift will call when the form is submitted.
+This function sets the eventRV in the subsequent POST request to contain the event instance 
+that was used used in the current request. </p>
+
+<p>For more information on the pattern used here to pass an instance from one page request to another
+see <a href="http://tech.damianhelme.com/understanding-lifts-requestvars">Understanding Lift&#39;s RequestVars</a></p>
+
+<p>Note that the SHtml.hidden line comes before the other HTML callback functions (SHtml.text, SHtml.onSubmit). 
+This ordering is important since Lift calls the functions in the same order they are 
+shown here. 
+EventRV needs to be set before setting the member variables of Event instance contained in eventRV.</p>
+
+<p>In the &#39;create&#39; method the SHtml.hidden line isn&#39;t strictly necessary, however, it&#39;s useful to include as a general rule.
+If this line was omitted, all that would have happened here is that on a POST request, eventRV would not have been set when it is first accessed.
+A new Event instance would then be created. </p>
+
+<p>In the example, this would work since the content of the name field would be written to the 
+new instance (via the closure on line 4) when the form is submitted.
+The instance used on the previous request will be lost to garbage collection in the usual way.
+The main advantage in this case of including the SHtml.hidden line 
+would be that it prevents unnecessary garbage collection.</p>
+
+<p>However, there are some use cases where the SHtml.hidden line is essential.
+For instance, the Event class may have had some fields that were not set via the form. 
+As an example, suppose that the Event class had a member variable containing a foreign key to a
+Location instance (representing the many-to-one relationship in real-life 
+where events are held at a particular location). 
+If the &#39;createvent&#39; page can only be invoked from 
+within the context of a specific location (e.g. from a link embedded in the &#39;viewlocation&#39; page), then when the event is created the location member variable should be set automatically.</p>
+
+<p>The actual code to do this it bit too lengthy to show here but it would be possible
+for the create event operation to know the location context from which it has been called and the 
+EventOps.create function to set the Event location member accordingly. </p>
+
+<p>Without the location present in a form field and without the SHtml.hidden call in the EventOps.create,
+the location setting would be lost if the form is submitted.</p>
+
+<p>Finally, line (4) uses a common pattern for binding the fields of a Mapper entity to a HTML form.
+Line (5) registers a function that Lift will call to process the contents of the form
+when it is submitted:</p>
+
+<pre><code>def processSubmit() = {
+  eventVar.is.validate match {
+    case  Nil =&gt; {
+      eventVar.is.save 
+      S.notice(&quot;Event Saved&quot;)
+      S.seeOther(&quot;/event/listevent&quot;)
+    } 
+    case errors =&gt; S.error(errors)
+  }
+  // exiting the function here causes the form to reload
+}
+</code></pre>
+
+<p>These are standard Lift techniques, for more information see <a href="http://stable.simply.liftweb.net/#toc-Section-7.10">Simply Lift</a>.</p>
+
+<p>If processSubmit succeeds, we&#39;re taken to the listevent.html page which in-turn invokes the EventOps.list method. 
+Note that the SHtml.hidden closure called in EventOps.create will still have set eventRV, 
+but since the list method does&#39;t use eventRV, it will be ignored.</p>
+
+<h3 id="toc_12">Moving between HTML page views</h3>
+
+<p>When navigating between the list, view and edit pages, the event RequestVar is used to hold the Event instance in memory
+ on the server between page requests. 
+For example, in the list view, when an item&#39;s view link is clicked, 
+the following view page will be 
+rendered using the same event instance in memory as was used to render that line in the list 
+view.  Similarly, from an event&#39;s view page, 
+when the edit link on that page is clicked, the same event instance is used to render the subsequent edit page.</p>
+
+<p>The following sections present the code that implements this mechanism.</p>
+
+<h3 id="toc_13">List</h3>
+
+<p>The listevent.html template is:</p>
+
+<pre><code>&lt;div data-lift=&quot;lift:surround?with=default;at=content&quot;&gt;
+  &lt;h2&gt;Events&lt;/h2&gt;
+  &lt;a href=&quot;/event/createevent&quot;&gt;New Event&lt;/a&gt; &lt;br /&gt;
+  &lt;div data-lift=&quot;EventOps.list&quot;&gt;
+    &lt;table&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Event Name&lt;/th&gt;
+          &lt;th&gt;Actions&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody id=&quot;eventlist&quot;&gt;
+        &lt;tr class=&quot;row&quot;&gt;
+          &lt;td class=&quot;eventName&quot;&gt;Dummy Name&lt;/td&gt;
+          &lt;td class=&quot;actions&quot;&gt;Actions&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The list snippet is: </p>
+
+<pre><code>def list = {
+  val allEvents = Event.findAll                             
+  &quot;.row *&quot; #&gt; allEvents.map( t =&gt; {                        
+    &quot;.eventName *&quot; #&gt; Text(t.eventName) &amp;                  
+    &quot;.actions *&quot; #&gt; {                                      
+        SHtml.link(&quot;/event/viewevent&quot;,                     
+          () =&gt; eventRV(t), Text(&quot;view&quot;)) ++ Text(&quot; &quot;) ++  
+        SHtml.link(&quot;/event/editevent&quot;,                     
+          () =&gt; eventRV(t), Text(&quot;edit&quot;)) ++ Text(&quot; &quot;) ++  
+        SHtml.link(&quot;/event/listevent&quot;,                     
+          () =&gt; {t.delete_!}, Text(&quot;delete&quot;))}             
+  } )          
+}
+</code></pre>
+
+<p>This EventOps.list method uses a common pattern for displaying a list of entities based on a HTML template. 
+For more information, see the example Binding To Children section of the Lift Wiki&#39;s 
+<a href="http://www.assembla.com/spaces/liftweb/wiki/Binding_via_CSS_Selectors">Binding Via CSS Selectors</a>).</p>
+
+<p>All the events are loaded from the database into a list held in memory at line (2). 
+Lines (5 - 11) render each event as a line in the table, with associated hyperlinks to the &#39;viewevent&#39;, 
+&#39;editevent&#39; and &#39;deleteevent&#39; pages.
+The view and edit links each bind to the fuction &#39;() =&gt; eventRV(t)&#39;. 
+This is called on the server when the link is clicked, setting the eventRV for the scope of the resulting 
+page request to contain
+the event instance corresponding to the line that was clicked.</p>
+
+<h3 id="toc_14">Edit</h3>
+
+<p>The editevent.html is:</p>
+
+<pre><code>&lt;div data-lift=&quot;lift:surround?with=default;at=content&quot;&gt;
+  &lt;h2 class=&quot;alt&quot;&gt;Edit Event&lt;/h2&gt;
+  &lt;div data-lift=&quot;EventOps.edit?form=post&quot;&gt;
+    &lt;span id=&quot;hidden&quot;&gt;&lt;/span&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Event Name&lt;/td&gt;&lt;td&gt;&lt;input id=&quot;eventname&quot; type=&quot;text&quot;/&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;input id=&quot;submit&quot; type=&quot;submit /&gt; &lt;br /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The EventOps.edit snippet is:</p>
+
+<pre><code>def edit = {
+  if ( ! eventRV.set_? )                              
+        S.redirectTo(&quot;/event/listevent&quot;)
+
+  val event = eventRV.is                              
+  &quot;#hidden&quot; #&gt; SHtml.hidden(() =&gt; eventRV(event) ) &amp;   
+  &quot;#eventname&quot; #&gt; SHtml.text(eventRV.is.eventName,     
+               name =&gt; eventRV.is.eventName(name) ) &amp;  
+  &quot;#submit&quot; #&gt; SHtml.onSubmitUnit(processSubmit)       
+}
+</code></pre>
+
+<p>This snippet is very similar to the &#39;create&#39; snippet discussed previously with the 
+following differences.</p>
+
+<p>At line (2), the eventRV is expected to be set. 
+The user should have navigated here by clicking
+on the edit link on either the list or view page. 
+Both of those links have an associated <code>() =&gt; eventRV(event)</code> function that sets eventRV 
+for this request. 
+The case in which the user has typed in the edit page url directly is trapped. </p>
+
+<p>The edit snippet has the same &#39;SHtml.hidden&#39; mechanism, however, in 
+this case it performs an essential function.
+The event instance has an &#39;id&#39; member variable corresponding to the primary key of the record in the database 
+(Event inherits this field from IdPK). The id field is assigned a value when save is 
+first called on the instance. When the code edits and saves an existing event instance, 
+Mapper uses the id field to know to update an existing record in the database rather than create a new one.</p>
+
+<p>The id field is not rendered as a form field. 
+When the form is submitted, if the SHtml.hidden field didn&#39;t exist, the event instance on which the other field 
+closures are operating will have been newly created for the POST operation and as a result the id will not have been set.
+Thus if the save were to be called on this event instance, a duplicate record will be written to the database.</p>
+
+<h3 id="toc_15">View</h3>
+
+<p>The viewevent.html template is:</p>
+
+<pre><code>&lt;div data-lift=&quot;lift:surround?with=default;at=content&quot;&gt;
+  &lt;h2 class=&quot;alt&quot;&gt;View Event&lt;/h2&gt;
+  &lt;div data-lift=&quot;EventOps.view&quot;&gt;
+     &lt;table&gt;
+        &lt;tr&gt;&lt;td&gt;Event Name&lt;/td&gt;&lt;td id=&quot;eventname&quot;&gt;Dummy Name&lt;/td&gt;&lt;/tr&gt;
+     &lt;/table&gt;
+     &lt;a id=&quot;edit&quot; href=#&gt;Edit&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The snippet code for the view operation is:</p>
+
+<pre><code>def view = {
+  if ( ! eventRV.set_? ) 
+    S.redirectTo(&quot;/event/listevent&quot;)
+
+  val event = eventRV.is
+  &quot;#eventname *&quot; #&gt; eventRV.is.eventName.asHtml &amp;
+  &quot;#edit&quot; #&gt; SHtml.link(&quot;/event/editevent&quot;, () =&gt; eventRV(event), Text(&quot;edit&quot;))
+}
+</code></pre>
+
+<p>This code is similar to the other CRUD operations presented so far.
+The main difference is that MappedField&#39;s &#39;asHtml&#39; method (eventName inherits from MappedField) is being used to render a read-only display of the name value.</p>
+
+<h3 id="toc_16">Delete</h3>
+
+<p>The deleteevent.html template is:</p>
+
+<pre><code>&lt;div data-lift=&quot;lift:surround?with=default;at=content&quot;&gt;
+  &lt;h2 class=&quot;alt&quot;&gt;Delete Event&lt;/h2&gt;
+  &lt;div data-lift=&quot;EventOps.delete&quot;&gt;
+  &lt;p&gt;Are you sure you want to delete event: &lt;span id=&quot;eventname&quot;&gt;&lt;/span&gt;?&lt;/p&gt;
+     &lt;a id=&quot;yes&quot; href=#&gt;Yes&lt;/a&gt;
+     &lt;a id=&quot;no&quot; href=#&gt;No&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The EventOps.delete snippet is:</p>
+
+<pre><code>def delete = {
+  if ( ! eventVar.set_? ) 
+    S.redirectTo(&quot;/event/listevent&quot;)
+
+  val e = eventVar.is
+  &quot;#eventname&quot; #&gt; eventVar.is.eventName &amp;
+  &quot;#yes&quot; #&gt; SHtml.link(&quot;/event/listevent&quot;, () =&gt;{ e.delete_!}, Text(&quot;Yes&quot;)) &amp;
+  &quot;#no&quot; #&gt; SHtml.link(&quot;/event/listevent&quot;, () =&gt;{ }, Text(&quot;No&quot;)) 
+}
+</code></pre>
+
+<p>The main technique to note here is that the deletion occurs with Lift calling the 
+<code>() =&gt;{ e.delete_!}</code> funtion registered with the &#39;Yes&#39; link. 
+This function forms a closure around the event instance that the user
+wants to delete and calls the <code>Mapper.delete_!</code> function on that instance.</p>
+
+<h3 id="toc_17">Summary</h3>
+
+<p>While this approach may be more work than extending the CRUDify trait, it is straight forward, and provides full control over your CRUD forms. </p>
+
+<p>After using this approach a couple of times
+I suspect you&#39;ll find it easy enough and quick enough for it to become your default
+starting point for all future CRUD functionality.</p>
+
+<p>Please leave comments, thoughts, questions etc. </p>
+
+<h3 id="toc_18">Resources</h3>
+
+<ul>
+<li><a href="http://stable.simply.liftweb.net/">Simply Lift</a>, David Pollak</li>
+<li><a href="http://exploring.liftweb.net/master/index.html">Exploring Lift</a>, Derek Chen-Becker, Marius Danciu and Tyler Weir</li>
+<li>My blog post: <a href="http://tech.damianhelme.com/understanding-lifts-requestvars">Understanding Lift&#39;s RequestVars</a></li>
+</ul>
+
+    </div>
+    <!--
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      <li>
+        <a href="/categories#code-ref">code <span>3</span></a>
+      </li>
+    </ul>
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      <li>
+        <a href="/tags#scala-ref">scala <span>3</span></a>
+      </li>
+      <li>
+        <a href="/tags#lift-ref">lift <span>3</span></a>
+      </li>
+      <li>
+        <a href="/tags#CRUD-ref">CRUD <span>1</span></a>
+      </li>
+      <li>
+        <a href="/tags#Database-ref">Database <span>1</span></a>
+      </li>
+    </ul>
+      -->
+    <hr>
+    <div class="pagination">
+      <ul>
+          <li class="prev"><a href="/joel-spolsky-stack-exchange" title="Joel Spolsky &amp; Stack Exchange">&larr; Previous</a></li>
+
+          <li><a href="/archive">Archive</a></li>
+
+          <li class="next"><a href="/twitter-bootstrap-navbar-dropdowns-and-lifts" title="Bootstrap Navbar Dropdowns and Lift&#39;s Menu Builder">Next &rarr;</a></li>
+      </ul>
+    </div>
+    <hr>
+    <div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'damianhelme'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </div>
+    <div class="span4"> 
+    <h4>Published</h4>
+    <div class="date"><span>2012-07-21</span></div>
+        <br>
+    <h4>Categories</h4>
+ 
+    <ul class="tag_box">
+    <li><a href="/categories#code-ref">code <span>3</span></a></li>
+    </ul>
+    <br>
+    <h4>Tags</h4>
+    <ul class="tag_box">
+    <li><a href="/tags#scala-ref">scala <span>3</span></a></li>
+    <li><a href="/tags#lift-ref">lift <span>3</span></a></li>
+    <li><a href="/tags#CRUD-ref">CRUD <span>1</span></a></li>
+    <li><a href="/tags#Database-ref">Database <span>1</span></a></li>
+    </ul>
+    </div>
+</div>
+
+</div>
+
+			<hr>
+			<div class="footer">
+				<p>
+					&copy; Damian Helme 2014 with help from <a
+						href="http://ruhoh.com" target="_blank"
+						title="The Definitive Technical Blogging Framework">ruhoh</a> and
+					<a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter
+						Bootstrap</a>
+				</p>
+			</div>
+
+		</div>
+		<!-- /container -->
+
+		<!-- Google Prettify -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+<!-- end Google Prettify --> <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-11790416-7']);
+  _gaq.push(['_trackPageview']);
+  
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+	</div>
+
+</body>
+</html>

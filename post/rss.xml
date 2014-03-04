@@ -1,0 +1,704 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+  <channel>
+    <title>Damian Helme</title>
+    <description>Damian Helme</description>
+    <link/>
+    <pubDate>2014-03-04</pubDate>
+    <item>
+      <title>Bootstrap Navbar Dropdowns and Lift's Menu Builder</title>
+      <link>/twitter-bootstrap-navbar-dropdowns-and-lifts</link>
+      <pubDate>2012-02-13</pubDate>
+      <description>&lt;p&gt;Here's announcing a little utility I wrote to convert Lift's Menu.builder output into a nav bar with drop downs styled with Twitter's Bootstrap libraries.&lt;/p&gt;
+
+&lt;p&gt;Using this utility it's easy to generate a nav bar from your SiteMap that looks like:
+&lt;a href="/assets/media/tbnav.png"&gt;&lt;img width="500" src="/assets/media/tbnav.png"&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;In particular, the features I'm looking to recreate here are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The nav-bar sits at the top, with the user navigation options (e.g. Login, logout, etc) and held over to the right. Once the user is logged in the&amp;nbsp;Logout, Change Password, etc options are on a drop-down menu whose root value is the name of the logged-in user.&lt;/li&gt;
+&lt;li&gt;The man nav options&amp;nbsp;are held over the the left.&lt;/li&gt;
+&lt;li&gt;An arbitrary number of the main nav options may be menu drop-downs and are easily configured using SiteMap 'submenu's&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The utility is available to download &lt;a href="https://github.com/dph01/lift-TBUtils"&gt;https://github.com/dph01/lift-TBUtils&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;An example project using the library is available for download here: &lt;a href="https://github.com/dph01/lift-TBNavbarTemplate"&gt;https://github.com/dph01/lift-TBNavbarTemplate&lt;/a&gt;.&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;You can see a running version of this application at &lt;a href="http://www.damianhelme.com/tbnav"&gt;www.damianhelme.com/tbnav&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;To create this nav bar, the menus are defined in Boot.scala by:&lt;/p&gt;
+
+&lt;p&gt;&lt;script src="https://gist.github.com/1817391.js?file=gistfile1.scala"&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;The menus are split left and right by defining two LocGroups: 'main' are the menu items held over the left, &amp;amp; 'user' are the menu items held to the right. Note that because we're using the Login and SignUp Locs that comes with ProtoUser, we set the LocGroup in our User object (User.scala):&lt;/p&gt;
+
+&lt;script src="https://gist.github.com/1817453.js"&gt; &lt;/script&gt;
+
+&lt;p&gt;The nav bar is created in the html by wrapping the Menu.builder snippet with a call to TBNav.menuToTBNav:&lt;/p&gt;
+
+&lt;script src="https://gist.github.com/1817530.js"&gt; &lt;/script&gt;
+
+&lt;p&gt;Further info on using the TBNav utility is on the github page&amp;nbsp;&lt;a href="https://github.com/dph01/lift-TBUtils"&gt;https://github.com/dph01/lift-TBUtils&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Please leave comments/thoughts/suggestions/questions etc!&lt;/p&gt;
+  
+</description>
+    </item>
+    <item>
+      <title>DIY Lift CRUD - an alternative to CRUDify</title>
+      <link>/diy-lift-crud-an-alternative-to-crudify</link>
+      <pubDate>2012-07-21</pubDate>
+      <description>&lt;p&gt;This article describes a simple approach for creating your own CRUD (Create, Read, Update, Delete) database screens in 
+&lt;a href="http://liftweb.net/"&gt;Lift&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id="toc_0"&gt;Why build your own CRUD screens?&lt;/h3&gt;
+
+&lt;p&gt;Lift has a useful trait, CRUDify, that automatically adds CRUD functionality to any class.&lt;br&gt;
+CRUDify is useful for rapid prototyping and can even be deployed to production where basic functionality is sufficient. &lt;/p&gt;
+
+&lt;p&gt;You can customise much of the default behaviour by overriding the CRUDify methods. 
+However, there is a practical limit to how far you can go with the customisation.&lt;/p&gt;
+
+&lt;p&gt;When your requirements diverge too much from the default CRUDify functionality, 
+you can easily find yourself trying to coerce CRUDify to perform in ways in which it was not designed to perform. 
+This can quickly lead to bloated, convoluted code that is hard to maintain. 
+At this point it is often easier to abandon CRUDify and write your CRUD screens from the ground up.&lt;/p&gt;
+
+&lt;h3 id="toc_1"&gt;What is covered?&lt;/h3&gt;
+
+&lt;p&gt;This article describes a simple approach for implementing a customised CRUD application.&lt;br&gt;
+It covers how to organise your application into folders, files, classes, and methods.  A naming convention is 
+provided for these artifacts as well as a simple model illustrating allowable screen transitions.  &lt;/p&gt;
+
+&lt;p&gt;The approach is demonstrated with an example consisting of code for a simple CRUD application with a single database entity called Event. 
+Event contains the single field &amp;#39;eventName&amp;#39;. &lt;/p&gt;
+
+&lt;p&gt;This article also suggests coding patterns that can be used for implementation challenges 
+such managing state on the server between successive page requests and using CSS Selector Transforms 
+to efficiently render data as HTML.&lt;/p&gt;
+
+&lt;p&gt;The example uses the Lift Mapper trait to read and write data from the database.&lt;br&gt;
+However, this approach could also equally easily use Lift&amp;#39;s Record library or any other ORM.&lt;/p&gt;
+
+&lt;h3 id="toc_2"&gt;Prerequisites&lt;/h3&gt;
+
+&lt;p&gt;This article assumes that the reader is familiar with basic Lift concepts.&lt;/p&gt;
+
+&lt;p&gt;As a minimum, you need to be comfortable with the techniques covered in Chapters 1-4 &amp;amp; 7 of &lt;a href="http://stable.simply.liftweb.net/"&gt;Simply Lift&lt;/a&gt;
+or the first eight chapters of &lt;a href="http://exploring.liftweb.net"&gt;Exploring Lift&lt;/a&gt;, up to the section on Mapper.  &lt;/p&gt;
+
+&lt;h3 id="toc_3"&gt;Download the code&lt;/h3&gt;
+
+&lt;p&gt;You can download the code discussed in this article from &lt;a href="http://www.github.com/dph01/lift-CRUDBasic"&gt;www.github.com/dph01/lift-CRUDBasic&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id="toc_4"&gt;Running Version&lt;/h3&gt;
+
+&lt;p&gt;A running version of this code can be seen at &lt;a href="http://www.damianhelme.com/crudbasic"&gt;www.damianhelme.com/crudbasic&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id="toc_5"&gt;Overview&lt;/h3&gt;
+
+&lt;p&gt;The user interacts with each data entity with separate HTML pages for each of the following operations: &lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Creating a new instance&lt;/li&gt;
+&lt;li&gt;Listing all existing instances&lt;/li&gt;
+&lt;li&gt;Editing an existing instance&lt;/li&gt;
+&lt;li&gt;Viewing (i.e. read only) an existing instance &lt;/li&gt;
+&lt;li&gt;Deleting an existing instance.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The diagram below shows the allowable page transitions for the Event example. 
+The screen flow is entered through New Event or List Events. Navigation to the View, Edit, and Delete pages are through links on one of the other pages.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/assets/media/CRUDBasicScreenFow.gif" alt="Screen Flow"&gt;&lt;/p&gt;
+
+&lt;p&gt;The code is oragnised into a model file, a snippet file, and a series of HTML templates as shown below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/assets/media/folders.gif" alt="Folder Structure"&gt;&lt;/p&gt;
+
+&lt;h3 id="toc_6"&gt;Model&lt;/h3&gt;
+
+&lt;p&gt;For the sake of this example, Lift&amp;#39;s Mapper class is used to manage database access. Each entity has its own Scala file in the model package.
+For example, the code for the Event entity (in /src/main/scala/code/model/Event.scala) is: &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Event extends LongKeyedMapper[Event] 
+  with IdPK {
+    def getSingleton = Event 
+
+    object eventName extends MappedString(this, 30) 
+        with ValidateLength {
+      override def validations = 
+        valMinLen(3, &amp;quot;Event name must contain at least 3 characters.&amp;quot;) _ ::
+          super.validations
+    }
+}
+
+object Event extends Event 
+  with LongKeyedMetaMapper[Event] {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A simple validation rule was added to help test handling of form submission failures, which will be discussed later.&lt;/p&gt;
+
+&lt;h3 id="toc_7"&gt;HTML&lt;/h3&gt;
+
+&lt;p&gt;The HTML pages for manipulating entities are derived from five Lift templates.
+For the Event entity they are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;createevent.html&lt;/li&gt;
+&lt;li&gt;listevent.html&lt;/li&gt;
+&lt;li&gt;editevent.html&lt;/li&gt;
+&lt;li&gt;viewevent.hmtl&lt;/li&gt;
+&lt;li&gt;deleteevent.hmtl&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The templates reside in sub-directories of src/main/webapp. There is one directory for each entity.
+ For instance, the templates for Event are in: src/main/webapp/event. &lt;/p&gt;
+
+&lt;p&gt;Access to these pages are defined in the SiteMap in Boot.scala:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Menu(&amp;quot;Create Event&amp;quot;) /  &amp;quot;event&amp;quot; / &amp;quot;createevent&amp;quot;,
+Menu(&amp;quot;List Events&amp;quot;) /  &amp;quot;event&amp;quot; / &amp;quot;listevent&amp;quot;,
+Menu(&amp;quot;Edit Event&amp;quot;) /  &amp;quot;event&amp;quot; / &amp;quot;editevent&amp;quot; &amp;gt;&amp;gt; Hidden ,
+Menu(&amp;quot;View Event&amp;quot;) /  &amp;quot;event&amp;quot; / &amp;quot;viewevent&amp;quot; &amp;gt;&amp;gt; Hidden,
+Menu(&amp;quot;Delete Event&amp;quot;) /  &amp;quot;event&amp;quot; / &amp;quot;deletevent&amp;quot; &amp;gt;&amp;gt; Hidden,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;editevent, viewevent, deleteevent are hidden menu items because access to 
+these pages is via links on other pages. &lt;/p&gt;
+
+&lt;p&gt;Note that there is a redundant &amp;#39;event&amp;#39; in the path. One could have just had /event/create and /event/edit, however, having &amp;#39;event&amp;#39; repeated in the filename (i.e. createevent) allows you to easily 
+distinguish between multiple open files in an IDE such as Eclipse.&lt;/p&gt;
+
+&lt;p&gt;The contents of each of the HTML template is given below adjacent to the corresponding snippet.&lt;/p&gt;
+
+&lt;h3 id="toc_8"&gt;Snippet&lt;/h3&gt;
+
+&lt;p&gt;Each entity has an &amp;#39;Ops&amp;#39; (short for CRUD Operations) snippet class.&lt;/p&gt;
+
+&lt;p&gt;The Ops snippet class for each entity lives in its own file within the snippet package. &lt;/p&gt;
+
+&lt;p&gt;For the Event entity this is src/main/scala/code/snippet/EventOps.scala. &lt;/p&gt;
+
+&lt;p&gt;This class contains a single render method for each HTML template. The general structure of the class is as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class EventOps {
+  def create = { ... }
+  def edit = { ... }
+  def list = { ... }
+  def view = { ... }
+  def delete = { ... }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id="toc_9"&gt;The form processing lifecyle&lt;/h3&gt;
+
+&lt;p&gt;When a user types a URL of a form into a browser (e.g. http://localhost:8080/event/createevent), the browser creates and sends a HTTP GET request to the server for the specified resource. &lt;/p&gt;
+
+&lt;p&gt;Lift returns a HTML form to the browser with the &amp;#39;action&amp;#39; attribute set to the URL the user has just requested.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;form action=&amp;quot;/event/createevent&amp;quot; method=&amp;quot;post&amp;quot;&amp;gt;
+ ...
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When the form is submitted,
+the browser creates and sends a HTTP POST request to the same URL including the form data in the body of the request. &lt;/p&gt;
+
+&lt;p&gt;Lift developers have to decide what to return to the user in response to the POST.&lt;/p&gt;
+
+&lt;p&gt;Within the context of this approach, use the following convention: &lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If the form validation fails (e.g. the name field contains less than three characters), return the same HTML form again with the 
+input fields populated with the content that the user submitted. 
+If the user clicks submit again the browser sends another POST request and the
+cycle continues.&lt;/li&gt;
+&lt;li&gt;If the form processing succeeds, redirect the browser to the
+next page in the work-flow, which, in our case, is the List Events page.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When a form is processed, the snippet behind the form is therefore invoked at least twice; 
+once for the initial GET request and once for every subsequent POST request.&lt;/p&gt;
+
+&lt;h3 id="toc_10"&gt;Managing State&lt;/h3&gt;
+
+&lt;p&gt;Each &amp;#39;Ops&amp;#39; snippet class uses a RequestVar to pass the server-side 
+state between successive HTML page requests. For the Event instance, this is declared as:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  object eventRV extends RequestVar[Event](Event.create)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;RequestVar is used to pass Event instances between page requests in the following cases:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;From the initial GET request of a create or edit form to the subsequent 
+POST request that processes the submitted data (and also between successive POST requests if they
+occur)&lt;/li&gt;
+&lt;li&gt;From the list page to a delete, view, or edit page&lt;/li&gt;
+&lt;li&gt;From a view page to an edit page&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The RequestVar object is declared in a scope in which the related &amp;#39;Ops&amp;#39; class method has access .
+In this example the object is within the class scope, but it could also have been declared within file scope. 
+In some more complex use cases file scope would be necessary to facilitate 
+communication between multiple &amp;#39;Ops&amp;#39; classes. 
+Examples of such use cases will be provided in a future blog post. &lt;/p&gt;
+
+&lt;p&gt;For a more detailed discussion of RequestVars, see my blog post:
+&lt;a href="http://tech.damianhelme.com/understanding-lifts-requestvars"&gt;Understanding Lift&amp;#39;s RequestVars&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id="toc_11"&gt;Create&lt;/h3&gt;
+
+&lt;p&gt;Events are created through the createevent.html template:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div data-lift=&amp;quot;lift:surround?with=default;at=content&amp;quot;&amp;gt;
+  &amp;lt;h2 class=&amp;quot;alt&amp;quot;&amp;gt;New Event&amp;lt;/h2&amp;gt;
+  &amp;lt;div data-lift=&amp;quot;EventOps.create?form=post&amp;quot;&amp;gt;
+    &amp;lt;span id=&amp;quot;hidden&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;table&amp;gt;
+        &amp;lt;tr&amp;gt;
+          &amp;lt;td&amp;gt;Event Name&amp;lt;/td&amp;gt;
+          &amp;lt;td&amp;gt;&amp;lt;input id=&amp;quot;eventname&amp;quot; type=&amp;quot;text&amp;quot; /&amp;gt;&amp;lt;/td&amp;gt;
+        &amp;lt;/tr&amp;gt;
+     &amp;lt;/table&amp;gt;
+    &amp;lt;input id=&amp;quot;submit&amp;quot; type=&amp;quot;submit&amp;quot; /&amp;gt; &amp;lt;br /&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The corresponding snippet render method is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def create = {
+  val event = eventRV.is                             
+  &amp;quot;#hidden&amp;quot; #&amp;gt; SHtml.hidden(() =&amp;gt; eventRV(event) ) &amp;amp; 
+  &amp;quot;#eventname&amp;quot; #&amp;gt; SHtml.text(eventRV.is.eventName,   
+              name =&amp;gt; eventRV.is.eventName(name) ) &amp;amp; 
+  &amp;quot;#submit&amp;quot; #&amp;gt; SHtml.onSubmitUnit(processSubmit)     
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Most of this template is standard Lift form and snippet processing that&amp;#39;s described in detail 
+in Simply Lift and Exploring Lift.  &lt;/p&gt;
+
+&lt;p&gt;When the user sends the initial GET request on createevent.html and line (2) of the create snippet method is executed, 
+the eventRV.is method is called for
+the first time on this eventRV instance. 
+Since eventRV has not been initialised, eventRV initialises itself with a new Event instance.
+The Event instance is the result of calling Event.create which is the default function specified when eventRV is declared.&lt;/p&gt;
+
+&lt;p&gt;If create is called on a POST request, 
+which would occur on a form reload after validation has failed, 
+eventRV.is returns the event that was previously set by the SHtml.hidden function at line (3). &lt;/p&gt;
+
+&lt;p&gt;SHtml.hidden inserts a hidden input field into the HTML page and registers an associated 
+server-side function &lt;code&gt;() =&amp;gt; eventRV(event)&lt;/code&gt; that Lift will call when the form is submitted.
+This function sets the eventRV in the subsequent POST request to contain the event instance 
+that was used used in the current request. &lt;/p&gt;
+
+&lt;p&gt;For more information on the pattern used here to pass an instance from one page request to another
+see &lt;a href="http://tech.damianhelme.com/understanding-lifts-requestvars"&gt;Understanding Lift&amp;#39;s RequestVars&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Note that the SHtml.hidden line comes before the other HTML callback functions (SHtml.text, SHtml.onSubmit). 
+This ordering is important since Lift calls the functions in the same order they are 
+shown here. 
+EventRV needs to be set before setting the member variables of Event instance contained in eventRV.&lt;/p&gt;
+
+&lt;p&gt;In the &amp;#39;create&amp;#39; method the SHtml.hidden line isn&amp;#39;t strictly necessary, however, it&amp;#39;s useful to include as a general rule.
+If this line was omitted, all that would have happened here is that on a POST request, eventRV would not have been set when it is first accessed.
+A new Event instance would then be created. &lt;/p&gt;
+
+&lt;p&gt;In the example, this would work since the content of the name field would be written to the 
+new instance (via the closure on line 4) when the form is submitted.
+The instance used on the previous request will be lost to garbage collection in the usual way.
+The main advantage in this case of including the SHtml.hidden line 
+would be that it prevents unnecessary garbage collection.&lt;/p&gt;
+
+&lt;p&gt;However, there are some use cases where the SHtml.hidden line is essential.
+For instance, the Event class may have had some fields that were not set via the form. 
+As an example, suppose that the Event class had a member variable containing a foreign key to a
+Location instance (representing the many-to-one relationship in real-life 
+where events are held at a particular location). 
+If the &amp;#39;createvent&amp;#39; page can only be invoked from 
+within the context of a specific location (e.g. from a link embedded in the &amp;#39;viewlocation&amp;#39; page), then when the event is created the location member variable should be set automatically.&lt;/p&gt;
+
+&lt;p&gt;The actual code to do this it bit too lengthy to show here but it would be possible
+for the create event operation to know the location context from which it has been called and the 
+EventOps.create function to set the Event location member accordingly. &lt;/p&gt;
+
+&lt;p&gt;Without the location present in a form field and without the SHtml.hidden call in the EventOps.create,
+the location setting would be lost if the form is submitted.&lt;/p&gt;
+
+&lt;p&gt;Finally, line (4) uses a common pattern for binding the fields of a Mapper entity to a HTML form.
+Line (5) registers a function that Lift will call to process the contents of the form
+when it is submitted:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def processSubmit() = {
+  eventVar.is.validate match {
+    case  Nil =&amp;gt; {
+      eventVar.is.save 
+      S.notice(&amp;quot;Event Saved&amp;quot;)
+      S.seeOther(&amp;quot;/event/listevent&amp;quot;)
+    } 
+    case errors =&amp;gt; S.error(errors)
+  }
+  // exiting the function here causes the form to reload
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;These are standard Lift techniques, for more information see &lt;a href="http://stable.simply.liftweb.net/#toc-Section-7.10"&gt;Simply Lift&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If processSubmit succeeds, we&amp;#39;re taken to the listevent.html page which in-turn invokes the EventOps.list method. 
+Note that the SHtml.hidden closure called in EventOps.create will still have set eventRV, 
+but since the list method does&amp;#39;t use eventRV, it will be ignored.&lt;/p&gt;
+
+&lt;h3 id="toc_12"&gt;Moving between HTML page views&lt;/h3&gt;
+
+&lt;p&gt;When navigating between the list, view and edit pages, the event RequestVar is used to hold the Event instance in memory
+ on the server between page requests. 
+For example, in the list view, when an item&amp;#39;s view link is clicked, 
+the following view page will be 
+rendered using the same event instance in memory as was used to render that line in the list 
+view.  Similarly, from an event&amp;#39;s view page, 
+when the edit link on that page is clicked, the same event instance is used to render the subsequent edit page.&lt;/p&gt;
+
+&lt;p&gt;The following sections present the code that implements this mechanism.&lt;/p&gt;
+
+&lt;h3 id="toc_13"&gt;List&lt;/h3&gt;
+
+&lt;p&gt;The listevent.html template is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div data-lift=&amp;quot;lift:surround?with=default;at=content&amp;quot;&amp;gt;
+  &amp;lt;h2&amp;gt;Events&amp;lt;/h2&amp;gt;
+  &amp;lt;a href=&amp;quot;/event/createevent&amp;quot;&amp;gt;New Event&amp;lt;/a&amp;gt; &amp;lt;br /&amp;gt;
+  &amp;lt;div data-lift=&amp;quot;EventOps.list&amp;quot;&amp;gt;
+    &amp;lt;table&amp;gt;
+      &amp;lt;thead&amp;gt;
+        &amp;lt;tr&amp;gt;
+          &amp;lt;th&amp;gt;Event Name&amp;lt;/th&amp;gt;
+          &amp;lt;th&amp;gt;Actions&amp;lt;/th&amp;gt;
+        &amp;lt;/tr&amp;gt;
+      &amp;lt;/thead&amp;gt;
+      &amp;lt;tbody id=&amp;quot;eventlist&amp;quot;&amp;gt;
+        &amp;lt;tr class=&amp;quot;row&amp;quot;&amp;gt;
+          &amp;lt;td class=&amp;quot;eventName&amp;quot;&amp;gt;Dummy Name&amp;lt;/td&amp;gt;
+          &amp;lt;td class=&amp;quot;actions&amp;quot;&amp;gt;Actions&amp;lt;/td&amp;gt;
+        &amp;lt;/tr&amp;gt;
+      &amp;lt;/tbody&amp;gt;
+    &amp;lt;/table&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The list snippet is: &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def list = {
+  val allEvents = Event.findAll                             
+  &amp;quot;.row *&amp;quot; #&amp;gt; allEvents.map( t =&amp;gt; {                        
+    &amp;quot;.eventName *&amp;quot; #&amp;gt; Text(t.eventName) &amp;amp;                  
+    &amp;quot;.actions *&amp;quot; #&amp;gt; {                                      
+        SHtml.link(&amp;quot;/event/viewevent&amp;quot;,                     
+          () =&amp;gt; eventRV(t), Text(&amp;quot;view&amp;quot;)) ++ Text(&amp;quot; &amp;quot;) ++  
+        SHtml.link(&amp;quot;/event/editevent&amp;quot;,                     
+          () =&amp;gt; eventRV(t), Text(&amp;quot;edit&amp;quot;)) ++ Text(&amp;quot; &amp;quot;) ++  
+        SHtml.link(&amp;quot;/event/listevent&amp;quot;,                     
+          () =&amp;gt; {t.delete_!}, Text(&amp;quot;delete&amp;quot;))}             
+  } )          
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This EventOps.list method uses a common pattern for displaying a list of entities based on a HTML template. 
+For more information, see the example Binding To Children section of the Lift Wiki&amp;#39;s 
+&lt;a href="http://www.assembla.com/spaces/liftweb/wiki/Binding_via_CSS_Selectors"&gt;Binding Via CSS Selectors&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;All the events are loaded from the database into a list held in memory at line (2). 
+Lines (5 - 11) render each event as a line in the table, with associated hyperlinks to the &amp;#39;viewevent&amp;#39;, 
+&amp;#39;editevent&amp;#39; and &amp;#39;deleteevent&amp;#39; pages.
+The view and edit links each bind to the fuction &amp;#39;() =&amp;gt; eventRV(t)&amp;#39;. 
+This is called on the server when the link is clicked, setting the eventRV for the scope of the resulting 
+page request to contain
+the event instance corresponding to the line that was clicked.&lt;/p&gt;
+
+&lt;h3 id="toc_14"&gt;Edit&lt;/h3&gt;
+
+&lt;p&gt;The editevent.html is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div data-lift=&amp;quot;lift:surround?with=default;at=content&amp;quot;&amp;gt;
+  &amp;lt;h2 class=&amp;quot;alt&amp;quot;&amp;gt;Edit Event&amp;lt;/h2&amp;gt;
+  &amp;lt;div data-lift=&amp;quot;EventOps.edit?form=post&amp;quot;&amp;gt;
+    &amp;lt;span id=&amp;quot;hidden&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;table&amp;gt;
+      &amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;Event Name&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;input id=&amp;quot;eventname&amp;quot; type=&amp;quot;text&amp;quot;/&amp;gt;&amp;lt;/td&amp;gt;
+      &amp;lt;/tr&amp;gt;
+    &amp;lt;/table&amp;gt;
+    &amp;lt;input id=&amp;quot;submit&amp;quot; type=&amp;quot;submit /&amp;gt; &amp;lt;br /&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The EventOps.edit snippet is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def edit = {
+  if ( ! eventRV.set_? )                              
+        S.redirectTo(&amp;quot;/event/listevent&amp;quot;)
+
+  val event = eventRV.is                              
+  &amp;quot;#hidden&amp;quot; #&amp;gt; SHtml.hidden(() =&amp;gt; eventRV(event) ) &amp;amp;   
+  &amp;quot;#eventname&amp;quot; #&amp;gt; SHtml.text(eventRV.is.eventName,     
+               name =&amp;gt; eventRV.is.eventName(name) ) &amp;amp;  
+  &amp;quot;#submit&amp;quot; #&amp;gt; SHtml.onSubmitUnit(processSubmit)       
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This snippet is very similar to the &amp;#39;create&amp;#39; snippet discussed previously with the 
+following differences.&lt;/p&gt;
+
+&lt;p&gt;At line (2), the eventRV is expected to be set. 
+The user should have navigated here by clicking
+on the edit link on either the list or view page. 
+Both of those links have an associated &lt;code&gt;() =&amp;gt; eventRV(event)&lt;/code&gt; function that sets eventRV 
+for this request. 
+The case in which the user has typed in the edit page url directly is trapped. &lt;/p&gt;
+
+&lt;p&gt;The edit snippet has the same &amp;#39;SHtml.hidden&amp;#39; mechanism, however, in 
+this case it performs an essential function.
+The event instance has an &amp;#39;id&amp;#39; member variable corresponding to the primary key of the record in the database 
+(Event inherits this field from IdPK). The id field is assigned a value when save is 
+first called on the instance. When the code edits and saves an existing event instance, 
+Mapper uses the id field to know to update an existing record in the database rather than create a new one.&lt;/p&gt;
+
+&lt;p&gt;The id field is not rendered as a form field. 
+When the form is submitted, if the SHtml.hidden field didn&amp;#39;t exist, the event instance on which the other field 
+closures are operating will have been newly created for the POST operation and as a result the id will not have been set.
+Thus if the save were to be called on this event instance, a duplicate record will be written to the database.&lt;/p&gt;
+
+&lt;h3 id="toc_15"&gt;View&lt;/h3&gt;
+
+&lt;p&gt;The viewevent.html template is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div data-lift=&amp;quot;lift:surround?with=default;at=content&amp;quot;&amp;gt;
+  &amp;lt;h2 class=&amp;quot;alt&amp;quot;&amp;gt;View Event&amp;lt;/h2&amp;gt;
+  &amp;lt;div data-lift=&amp;quot;EventOps.view&amp;quot;&amp;gt;
+     &amp;lt;table&amp;gt;
+        &amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;Event Name&amp;lt;/td&amp;gt;&amp;lt;td id=&amp;quot;eventname&amp;quot;&amp;gt;Dummy Name&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
+     &amp;lt;/table&amp;gt;
+     &amp;lt;a id=&amp;quot;edit&amp;quot; href=#&amp;gt;Edit&amp;lt;/a&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The snippet code for the view operation is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def view = {
+  if ( ! eventRV.set_? ) 
+    S.redirectTo(&amp;quot;/event/listevent&amp;quot;)
+
+  val event = eventRV.is
+  &amp;quot;#eventname *&amp;quot; #&amp;gt; eventRV.is.eventName.asHtml &amp;amp;
+  &amp;quot;#edit&amp;quot; #&amp;gt; SHtml.link(&amp;quot;/event/editevent&amp;quot;, () =&amp;gt; eventRV(event), Text(&amp;quot;edit&amp;quot;))
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This code is similar to the other CRUD operations presented so far.
+The main difference is that MappedField&amp;#39;s &amp;#39;asHtml&amp;#39; method (eventName inherits from MappedField) is being used to render a read-only display of the name value.&lt;/p&gt;
+
+&lt;h3 id="toc_16"&gt;Delete&lt;/h3&gt;
+
+&lt;p&gt;The deleteevent.html template is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div data-lift=&amp;quot;lift:surround?with=default;at=content&amp;quot;&amp;gt;
+  &amp;lt;h2 class=&amp;quot;alt&amp;quot;&amp;gt;Delete Event&amp;lt;/h2&amp;gt;
+  &amp;lt;div data-lift=&amp;quot;EventOps.delete&amp;quot;&amp;gt;
+  &amp;lt;p&amp;gt;Are you sure you want to delete event: &amp;lt;span id=&amp;quot;eventname&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;?&amp;lt;/p&amp;gt;
+     &amp;lt;a id=&amp;quot;yes&amp;quot; href=#&amp;gt;Yes&amp;lt;/a&amp;gt;
+     &amp;lt;a id=&amp;quot;no&amp;quot; href=#&amp;gt;No&amp;lt;/a&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The EventOps.delete snippet is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def delete = {
+  if ( ! eventVar.set_? ) 
+    S.redirectTo(&amp;quot;/event/listevent&amp;quot;)
+
+  val e = eventVar.is
+  &amp;quot;#eventname&amp;quot; #&amp;gt; eventVar.is.eventName &amp;amp;
+  &amp;quot;#yes&amp;quot; #&amp;gt; SHtml.link(&amp;quot;/event/listevent&amp;quot;, () =&amp;gt;{ e.delete_!}, Text(&amp;quot;Yes&amp;quot;)) &amp;amp;
+  &amp;quot;#no&amp;quot; #&amp;gt; SHtml.link(&amp;quot;/event/listevent&amp;quot;, () =&amp;gt;{ }, Text(&amp;quot;No&amp;quot;)) 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The main technique to note here is that the deletion occurs with Lift calling the 
+&lt;code&gt;() =&amp;gt;{ e.delete_!}&lt;/code&gt; funtion registered with the &amp;#39;Yes&amp;#39; link. 
+This function forms a closure around the event instance that the user
+wants to delete and calls the &lt;code&gt;Mapper.delete_!&lt;/code&gt; function on that instance.&lt;/p&gt;
+
+&lt;h3 id="toc_17"&gt;Summary&lt;/h3&gt;
+
+&lt;p&gt;While this approach may be more work than extending the CRUDify trait, it is straight forward, and provides full control over your CRUD forms. &lt;/p&gt;
+
+&lt;p&gt;After using this approach a couple of times
+I suspect you&amp;#39;ll find it easy enough and quick enough for it to become your default
+starting point for all future CRUD functionality.&lt;/p&gt;
+
+&lt;p&gt;Please leave comments, thoughts, questions etc. &lt;/p&gt;
+
+&lt;h3 id="toc_18"&gt;Resources&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://stable.simply.liftweb.net/"&gt;Simply Lift&lt;/a&gt;, David Pollak&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://exploring.liftweb.net/master/index.html"&gt;Exploring Lift&lt;/a&gt;, Derek Chen-Becker, Marius Danciu and Tyler Weir&lt;/li&gt;
+&lt;li&gt;My blog post: &lt;a href="http://tech.damianhelme.com/understanding-lifts-requestvars"&gt;Understanding Lift&amp;#39;s RequestVars&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    <item>
+      <title>Joel Spolsky &amp; Stack Exchange</title>
+      <link>/joel-spolsky-stack-exchange</link>
+      <pubDate>2012-02-22</pubDate>
+      <description>&lt;p&gt;&lt;span style=""&gt;Went to an interesting talk this week at Cambridge Network - Joel Spolsky from Stack Exchange, Joel on Software, etc fame. Stack Exchange has 20 million unique visitors per month, only 50 employees &amp;amp; Google use Stack Overflow as a benchmark: it isn't allowed to slip down the rankings after an algo tweak. Nice position to be in!&lt;/span&gt;&lt;/p&gt;
+  
+</description>
+    </item>
+    <item>
+      <title>Scala SBT Template</title>
+      <link>/scala-sbt-template</link>
+      <pubDate>2012-02-15</pubDate>
+      <description>&lt;p&gt;Just posted a lightweight template to github for getting started with Scala &amp;amp; SBT: &lt;a href="https://github.com/dph01/scala-sbt-template"&gt;github.com/dph01/scala-sbt-template&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;It includes sbt-eclipse and templates for ScalaTest.&lt;/p&gt;
+  
+</description>
+    </item>
+    <item>
+      <title>Understanding Lift's RequestVar</title>
+      <link>/understanding-lifts-requestvars</link>
+      <pubDate>2012-03-01</pubDate>
+      <description>&lt;p&gt;This post aims to answer some of the questions I originally struggled with when I started using RequestVar's. I think I've got to grips with them sufficiently to help others who are wrestling with the same issue :-). So, here's my contribution to the Lift corpus ...&lt;/p&gt;
+
+&lt;p&gt;Consider the common use case, whereby when the user submits a form,  if the data fails validation, the data entered is re-presented to the user for correction.  The following common pattern meets this requirement by using a RequestVar to hold the state of the submitted data between requests.&lt;/p&gt;
+
+&lt;p&gt;The snippet:&lt;/p&gt;
+
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;class NameSnippet {
+
+  object nameRV extends RequestVar(&amp;quot;&amp;quot;)                // 1
+
+  def processSubmit() = {
+    // perform some simple validation
+    if (nameRV.is.length &amp;lt; 3) 
+      S.error(&amp;quot;event name must be at least 3 characters&amp;quot;)
+    else {
+      S.notice(&amp;quot;name OK&amp;quot;)
+      S.redirectTo(&amp;quot;/&amp;quot;)
+    }
+  }
+
+  def render = {
+    &amp;quot;#name&amp;quot; #&amp;gt; SHtml.text(nameRV.is, x =&amp;gt; nameRV(x) ) &amp;amp; // 2
+    &amp;quot;#submit&amp;quot; #&amp;gt; SHtml.onSubmitUnit(processSubmit)      // 3
+  }
+}&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The HTML template, name.html:&lt;/p&gt;
+
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;&amp;lt;div data-lift=&amp;quot;lift:surround?with=default;at=content&amp;quot;&amp;gt;
+  &amp;lt;div data-lift=&amp;quot;NameSnippet?form=post&amp;quot;&amp;gt;                &amp;lt;!-- 4 --&amp;gt;
+     Name: &amp;lt;input id=&amp;quot;name&amp;quot; type=&amp;quot;text&amp;quot;/&amp;gt;&amp;lt;br /&amp;gt;
+     &amp;lt;input id=&amp;quot;submit&amp;quot; type=&amp;quot;submit&amp;quot;/&amp;gt; &amp;lt;br /&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When I first came across this use of RequestVar, I struggled to understand what the RequestVar gives us  that we wouldn't get from using a regular var: what was going on in  line (2) with closures and scope  - weren't the name variables being set and read in different scopes? How could they be communicating?&lt;/p&gt;
+
+&lt;p&gt;To help answer these questions, I'll break the processing chain down to the basic steps:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The user types in the url of our web form, &lt;a href="http://localhost:8080/name"&gt;http://localhost:8080/name&lt;/a&gt;, say, sending an initial HTTP GET request to  the server.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Having resolved the request to the name.html template, Lift creates an instance of the NameSnippet class and calls the 'render' method to transform the contents of the HTML template node at line (4).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In 'render', at line (2), Lift transforms the content of name input node in our HTML into something like:&lt;/p&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;&amp;lt;input id=&amp;quot;name&amp;quot; name=&amp;quot;F1235075760726VICVPV&amp;quot; type=&amp;quot;text&amp;quot; value=&amp;quot;&amp;quot;/&amp;gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The 'value' attribute is set from calling nameRV.is. This is the first time nameRV is accessed and so Scala initialises the nameRV object at this point (remember Scala only initialises objects when they are first accessed).&lt;/p&gt;
+&lt;p&gt;As we are calling the 'is' method before nameRV has been set, before Lift returns us a value,  it sets nameRV to contain the default value we specified at (1), namely the empty string.&lt;/p&gt;
+&lt;p&gt;Lift also keeps a record of the  anonymous function 'x =&amp;gt; nameRV(x)', which it will call  later when the user submits the form. The name="F1235075760726VICVPV" attribute is Lift's mechanism for identifying which function is to be called. It will be called with the value the user enters in the Name input field. This function creates a closure around the nameRV object in the scope of the NameSnippet instance used to service this initial request.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;At line (3), Lift transforms the content of the 'submit' input node into something like:&lt;/p&gt;
+&lt;div class="code"&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;&amp;lt;input id=&amp;quot;submit&amp;quot; name=&amp;quot;F1235075860727PTINTI&amp;quot; type=&amp;quot;submit&amp;quot; /&amp;gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;p&gt;As above, Lift registers the processSubmit function  with the name F1235075860727PTINTI which it will call when the user submits the form. Again, processSubmit is closing around the nameRV object in the scope of the NameSnippet created to service this initial request.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When the user enters data into the name input field (say 'Jo') &amp;amp; clicks 'submit',  a second request (this time a POST) is made to &lt;a href="http://localhost:8080/name"&gt;http://localhost:8080/name&lt;/a&gt;, sending  the following key-value pairs in the message body:&lt;/p&gt;
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;F1235075760726VICVPV:Jo 
+F1235075860727PTINTI:Submit&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Lift recognises the two keys as being function identifiers, and looks up and calls the functions in the order in which they are received. Thus first, 'x =&amp;gt; nameRV(x)' is called to set nameRV with the contents of the name input field. But remember, nameRV is the instance that was created in the scope of the first NameSnippet instance. Second, processSubmit is called, which, in the body of the method, reads the content of nameRV we have just set. Again, this is the nameRV in the scope of the first request.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Suppose that the user had entered a name that passed validation (i.e. was more than three characters); processSubmit would then call redirectTo("/"), which throws an exception to interrupt the flow of control,  taking the user to "/". But in this example, the input name 'Jo' fails validation, and processSubmit exits normally and Lift carries on loading the input form, name.html.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To service this second request, Lift creates a second instance of NameSnippet and calls NameSnippet.render again. This time, when nameRV.is is called at (2), the nameRV.is call returns "Jo" and the user consequently sees his input being re-presented to him, allowing him to correct the error.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;But, how does this nameRV.is return 'Jo', when this nameRV object is in the scope of the  second request, but the nameRV that was set was in the scope of the first request?&lt;/p&gt;
+
+&lt;p&gt;The answer lies in realising that there is lot more going on behind the scenes with RequestVar's than we might believe from their apparently simple usage.&lt;/p&gt;
+
+&lt;p&gt;RequestVar's are actually acting as indices into a backing datastore: in this sense they are not acting as 'regular' variables (with normal scoping rules etc.) as the 'Var' in the name might suggest. When you set a RequestVar with something like nameRV("Jo"), the set method creates an entry in a  map, where the 'key' is based on the name of the variable (in this case, something like  liftsvcode.snippet.NameSnippet$nameRV$), and 'value' is what we're setting the RequestVar to (in this case 'Jo').&lt;/p&gt;
+
+&lt;p&gt;This backing datastore is shared across all snippets and closures called during the processing a single HTTP request (and actually all Ajax calls arising from this request, but that's outside the scope of this post). Thus, even though the nameRV object on which the  set method is called is a different  instance from the one that is read, they are setting and reading the same datastore value. That is because&amp;nbsp;they both use the  same name as the key into the same datastore. So, in this sense, RequestVar's are acting as variables that are accessible across scope boundaries.&lt;/p&gt;
+
+&lt;p&gt;So, to answer the question of 'What does RequesVar's give us that regular var's don't?', if we tried to write our snippet with a regular var instead of a RequestVar, with something like:&lt;/p&gt;
+
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;class NameSnippet {
+
+  var name = String(&amp;quot;&amp;quot;)                               // 1
+
+  def processSubmit() = { .... }
+
+  def render = {
+    &amp;quot;#name&amp;quot; #&amp;gt; SHtml.text(name, x =&amp;gt; {name = x} ) &amp;amp; // 2
+    &amp;quot;#submit&amp;quot; #&amp;gt; SHtml.onSubmitUnit(processSubmit)  // 3
+  }
+}&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;... the closure that sets the name 'x =&amp;gt; {name = x}' would be setting a different variable from the one that is being read with ' "#name" #&amp;gt; SHtml.text(name, ... ' . Thus when the form validation fails and the form is rendered for a second time, the name field would be blank; not what we want!&lt;/p&gt;
+
+&lt;p&gt;I'll be writing another post soon describing more advanced patterns using RequestVar's, so watch this space ...&lt;/p&gt;
+
+&lt;p&gt;Please feel free to leave comments / questions etc.&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+  
+</description>
+    </item>
+  </channel>
+</rss>

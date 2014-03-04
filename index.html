@@ -1,15 +1,305 @@
-<h1 id="toc_0">Hello World =D</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Damian Helme">
 
-<blockquote>
-<p>A profound quote.</p>
-</blockquote>
+<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-<h3 id="toc_1">Fruits I like</h3>
+<!-- Le styles -->
+<link href='/assets/stylesheets/bootstrap-06b32145fec588a12bca0410676d2d88.css' type='text/css' rel='stylesheet' media='all'>
+<link href='/assets/stylesheets/style-c0cbe6c00d4e2828bd7f77daf8de27c2.css' type='text/css' rel='stylesheet' media='all'>
+<link href='/assets/stylesheets/main-31f7578455fce02394da9d88b2105cac.css' type='text/css' rel='stylesheet' media='all'>
+<link href='/assets/stylesheets/google_prettify/sons-of-obsidian-afb0925bfa2d994f17dab93e13fbf999.css' type='text/css' rel='stylesheet' media='all'>
+<!-- Le fav and touch icons -->
+<!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+</head>
+
+<body>
+
+	<div class="container main">
+
+		<!-- Start Header-->
+		<div class="row">
+			<div class="span5 logo">
+				<a href="/">
+					<h1 class="logo-title">Damian Helme's Blog</h1>
+				</a> <span class="slogan">Thoughts, projects, info, etc ...</span>
+			</div>
+			<div class="span7">
+				<div class="row">
+
+					<div class="span7 customer_service">
+
+						<h4>
+							<small>For consultancy services : <strong>tech@damianhelme.com</strong></small>
+						</h4>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- End Header-->
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="container-narrow">
+<!-- 					<a class="brand" href="/">Damian Helme</a> -->
+					<ul class="nav"> 
+  <li><a href="/projects">Projects</a></li>
+
+  
+  <li><a href="/about">About Me</a></li>
+
+ 
+					</ul>
+				</div>
+			</div>
+		</div>
+
+    <hr>
+<!-- 		<div class="container-narrow"> -->
+		<div class="row">
+
+			<div class=span12><h1></h1>
+<div class="row">
+  <div class="span9">
+   <div class="post">
+  <h2 class="title"><a href="/twitter-bootstrap-navbar-dropdowns-and-lifts">Bootstrap Navbar Dropdowns and Lift&#39;s Menu Builder</a> </h2>
+  <div>
+  <p>
+  <span class="date">2012-02-13</span>
+  </p>
+  </div>
+
+  <div class="summary ellipsis">
+<p>Here's announcing a little utility I wrote to convert Lift's Menu.builder output into a nav bar with drop downs styled with Twitter's Bootstrap libraries.</p>
+
+<p>Using this utility it's easy to generate a nav bar from your SiteMap that looks like:
+<a href="/assets/media/tbnav.png"><img width="500" src="/assets/media/tbnav.png"></a>
+</p>
+
+<p>In particular, the features I'm looking to recreate here are:</p>
 
 <ul>
-<li>apples</li>
-<li>oranges</li>
-<li>watermelons</li>
-<li>tomatoes</li>
-<li>avocados</li>
+<li>The nav-bar sits at the top, with the user navigation options (e.g. Login, logout, etc) and held over to the right. Once the user is logged in the Logout, Change Password, etc options are on a drop-down menu whose root value is the name of the logged-in user.</li>
+<li>The man nav options are held over the the left.</li>
+<li>An arbitrary number of the main nav options may be menu drop-downs and are easily configured using SiteMap 'submenu's</li>
 </ul>
+<p>The utility is available to download <a href="https://github.com/dph01/lift-TBUtils">https://github.com/dph01/lift-TBUtils</a></p>
+
+<p>An example project using the library is available for download here: <a href="https://github.com/dph01/lift-TBNavbarTemplate">https://github.com/dph01/lift-TBNavbarTemplate</a>. </p>
+
+<p>You can see a running version of this application at <a href="http://www.damianhelme.com/tbnav">www.damianhelme.com/tbnav</a></p>
+
+<p>To create this nav bar, the menus are defined in Boot.scala by:</p>
+
+<p><script src="https://gist.github.com/1817391.js?file=gistfile1.scala"></script></p>
+
+</div>
+  
+  <div class="more">
+    <a href="/twitter-bootstrap-navbar-dropdowns-and-lifts" class="btn btn-small">read more..</a>
+  </div>
+</div>
+<hr/>
+<div class="post">
+  <h2 class="title"><a href="/diy-lift-crud-an-alternative-to-crudify">DIY Lift CRUD - an alternative to CRUDify</a> </h2>
+  <div>
+  <p>
+  <span class="date">2012-07-21</span>
+  </p>
+  </div>
+
+  <div class="summary ellipsis">
+<p>This article describes a simple approach for creating your own CRUD (Create, Read, Update, Delete) database screens in 
+<a href="http://liftweb.net/">Lift</a>.</p>
+
+<h3 id="toc_0">Why build your own CRUD screens?</h3>
+
+<p>Lift has a useful trait, CRUDify, that automatically adds CRUD functionality to any class.<br>
+CRUDify is useful for rapid prototyping and can even be deployed to production where basic functionality is sufficient. </p>
+
+<p>You can customise much of the default behaviour by overriding the CRUDify methods. 
+However, there is a practical limit to how far you can go with the customisation.</p>
+
+<p>When your requirements diverge too much from the default CRUDify functionality, 
+you can easily find yourself trying to coerce CRUDify to perform in ways in which it was not designed to perform. 
+This can quickly lead to bloated, convoluted code that is hard to maintain. 
+At this point it is often easier to abandon CRUDify and write your CRUD screens from the ground up.</p>
+
+<h3 id="toc_1">What is covered?</h3>
+
+<p>This article describes a simple approach for implementing a customised CRUD application.<br>
+It covers how to organise your application into folders, files, classes, and methods.  A naming convention is 
+provided for these artifacts as well as a simple model illustrating allowable screen transitions.  </p>
+</div>
+  
+  <div class="more">
+    <a href="/diy-lift-crud-an-alternative-to-crudify" class="btn btn-small">read more..</a>
+  </div>
+</div>
+<hr/>
+<div class="post">
+  <h2 class="title"><a href="/joel-spolsky-stack-exchange">Joel Spolsky &amp; Stack Exchange</a> </h2>
+  <div>
+  <p>
+  <span class="date">2012-02-22</span>
+  </p>
+  </div>
+
+  <div class="summary"><p><span style="">Went to an interesting talk this week at Cambridge Network - Joel Spolsky from Stack Exchange, Joel on Software, etc fame. Stack Exchange has 20 million unique visitors per month, only 50 employees &amp; Google use Stack Overflow as a benchmark: it isn't allowed to slip down the rankings after an algo tweak. Nice position to be in!</span></p></div>
+  
+  <div class="more">
+    <a href="/joel-spolsky-stack-exchange" class="btn btn-small">read more..</a>
+  </div>
+</div>
+<hr/>
+<div class="post">
+  <h2 class="title"><a href="/scala-sbt-template">Scala SBT Template</a> </h2>
+  <div>
+  <p>
+  <span class="date">2012-02-15</span>
+  </p>
+  </div>
+
+  <div class="summary">
+<p>Just posted a lightweight template to github for getting started with Scala &amp; SBT: <a href="https://github.com/dph01/scala-sbt-template">github.com/dph01/scala-sbt-template</a></p>
+
+<p>It includes sbt-eclipse and templates for ScalaTest.</p>
+</div>
+  
+  <div class="more">
+    <a href="/scala-sbt-template" class="btn btn-small">read more..</a>
+  </div>
+</div>
+<hr/>
+<div class="post">
+  <h2 class="title"><a href="/understanding-lifts-requestvars">Understanding Lift&#39;s RequestVar</a> </h2>
+  <div>
+  <p>
+  <span class="date">2012-03-01</span>
+  </p>
+  </div>
+
+  <div class="summary ellipsis">
+<p>This post aims to answer some of the questions I originally struggled with when I started using RequestVar's. I think I've got to grips with them sufficiently to help others who are wrestling with the same issue :-). So, here's my contribution to the Lift corpus ...</p>
+
+<p>Consider the common use case, whereby when the user submits a form,  if the data fails validation, the data entered is re-presented to the user for correction.  The following common pattern meets this requirement by using a RequestVar to hold the state of the submitted data between requests.</p>
+
+<p>The snippet:</p>
+
+<div class="CodeRay">
+  <div class="code"><pre>class NameSnippet {
+
+  object nameRV extends RequestVar("")                // 1
+
+  def processSubmit() = {
+    // perform some simple validation
+    if (nameRV.is.length &lt; 3) 
+      S.error("event name must be at least 3 characters")
+    else {
+      S.notice("name OK")
+      S.redirectTo("/")
+    }
+  }
+
+  def render = {
+    "#name" #&gt; SHtml.text(nameRV.is, x =&gt; nameRV(x) ) &amp; // 2
+    "#submit" #&gt; SHtml.onSubmitUnit(processSubmit)      // 3
+  }
+}</pre></div>
+</div>
+</div>
+  
+  <div class="more">
+    <a href="/understanding-lifts-requestvars" class="btn btn-small">read more..</a>
+  </div>
+</div>
+<hr/>
+
+<div class="pagination">
+  <ul>
+      <li class="active"><a href="/post/index/1">1</a></li>
+  </ul>
+</div>
+  </div>
+<!--
+-->
+     <div class="span3">
+        <div class="thumbnail">
+            <img src="/assets/media/me-thumb.jpeg">
+            <div class="caption">
+                <p>
+                    I'm an independent software developer specialising in Scala & Lift.
+                </p>
+                <p>
+                    Based in Cambridge, UK, working in and around London and the South East.
+                </p>
+                <p>
+                    Contact: <br /> tech [at] damianhelme.com.
+                </p>
+                <p>
+                <a href="/about">more ...</a>
+                </p>
+            </div>
+        </div>
+<!--         <a href="/archive">Blog Archive</a> -->
+    </div>
+</div>
+</div>
+
+			<hr>
+			<div class="footer">
+				<p>
+					&copy; Damian Helme 2014 with help from <a
+						href="http://ruhoh.com" target="_blank"
+						title="The Definitive Technical Blogging Framework">ruhoh</a> and
+					<a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter
+						Bootstrap</a>
+				</p>
+			</div>
+
+		</div>
+		<!-- /container -->
+
+		<!-- Google Prettify -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint linenums";
+  }
+  prettyPrint();
+</script>
+<!-- end Google Prettify --> <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-11790416-7']);
+  _gaq.push(['_trackPageview']);
+  
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+	</div>
+
+</body>
+</html>

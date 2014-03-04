@@ -1,28 +1,249 @@
 <?xml version="1.0"?>
 <rss version="2.0">
   <channel>
-    <title/>
-    <description/>
+    <title>Damian Helme</title>
+    <description>Damian Helme</description>
     <link/>
-    <pubDate>2014-02-28</pubDate>
+    <pubDate>2014-03-04</pubDate>
     <item>
-      <title>Index</title>
+      <title>About Me</title>
+      <link>/about</link>
+      <description>&lt;p&gt;I&amp;#39;m currently running a software development company producing web applications. I specialise in the emerging technologies of Scala and Lift to deliver secure, scalable, highly interactive applications that are faster to build and easier to maintain than with other web technologies.&lt;/p&gt;
+
+&lt;p&gt;I spread my time between developing my own products and working on small-scale, short-term contracts for external clients. If you need someone to temporarily bolster your Scala development team (e.g. to fill the gap while recruiting new staff, an extra pair of hands to cope with a spike in feature demands, etc.), then please get in touch.&lt;/p&gt;
+
+&lt;p&gt;With over 20 years of industry experience, I&amp;#39;ve written software in fields as diverse as Investment Banking, Financial Analysis, Oil and Gas Project Management, Satellite Image Processing, GIS Systems, and TV &amp;amp; Film Production Management. &lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve worked at various technical and managerial levels including heading up a department of 20+ developers. I cut my teeth on C and Unix, progressed through C++ and Java and am now thoroughly enjoying the conciseness, elegance and expressiveness of Scala.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;m based in Cambridge, UK, working in and around Cambridge, London and the South East.&lt;/p&gt;
+
+&lt;p&gt;Check out my &lt;a href="http://uk.linkedin.com/pub/damian-helme/2/4ba/9"&gt;LinkedIn Page&lt;/a&gt; for a fuller biog.&lt;/p&gt;
+
+&lt;p&gt;Contact: &lt;br /&gt; tech [at] damianhelme.com.&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Archive</title>
+      <link>/archive</link>
+      <description>
+</description>
+    </item>
+    <item>
+      <title>Categories</title>
+      <link>/categories</link>
+      <description>
+&lt;ul class="tag_box inline"&gt;
+&lt;/ul&gt;
+
+</description>
+    </item>
+    <item>
+      <title>Home</title>
       <link>/</link>
-      <description>&lt;h1 id="toc_0"&gt;Hello World =D&lt;/h1&gt;
+      <description>&lt;div class="post"&gt;
+  &lt;h2 class="title"&gt;&lt;a href="/twitter-bootstrap-navbar-dropdowns-and-lifts"&gt;Bootstrap Navbar Dropdowns and Lift&amp;#39;s Menu Builder&lt;/a&gt; &lt;/h2&gt;
+  &lt;div&gt;
+  &lt;p&gt;
+  &lt;span class="date"&gt;2012-02-13&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;/div&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;A profound quote.&lt;/p&gt;
-&lt;/blockquote&gt;
+  &lt;div class="summary ellipsis"&gt;
+&lt;p&gt;Here's announcing a little utility I wrote to convert Lift's Menu.builder output into a nav bar with drop downs styled with Twitter's Bootstrap libraries.&lt;/p&gt;
 
-&lt;h3 id="toc_1"&gt;Fruits I like&lt;/h3&gt;
+&lt;p&gt;Using this utility it's easy to generate a nav bar from your SiteMap that looks like:
+&lt;a href="/assets/media/tbnav.png"&gt;&lt;img width="500" src="/assets/media/tbnav.png"&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;In particular, the features I'm looking to recreate here are:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;apples&lt;/li&gt;
-&lt;li&gt;oranges&lt;/li&gt;
-&lt;li&gt;watermelons&lt;/li&gt;
-&lt;li&gt;tomatoes&lt;/li&gt;
-&lt;li&gt;avocados&lt;/li&gt;
+&lt;li&gt;The nav-bar sits at the top, with the user navigation options (e.g. Login, logout, etc) and held over to the right. Once the user is logged in the&#xA0;Logout, Change Password, etc options are on a drop-down menu whose root value is the name of the logged-in user.&lt;/li&gt;
+&lt;li&gt;The man nav options&#xA0;are held over the the left.&lt;/li&gt;
+&lt;li&gt;An arbitrary number of the main nav options may be menu drop-downs and are easily configured using SiteMap 'submenu's&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;The utility is available to download &lt;a href="https://github.com/dph01/lift-TBUtils"&gt;https://github.com/dph01/lift-TBUtils&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;An example project using the library is available for download here: &lt;a href="https://github.com/dph01/lift-TBNavbarTemplate"&gt;https://github.com/dph01/lift-TBNavbarTemplate&lt;/a&gt;.&#xA0;&lt;/p&gt;
+
+&lt;p&gt;You can see a running version of this application at &lt;a href="http://www.damianhelme.com/tbnav"&gt;www.damianhelme.com/tbnav&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;To create this nav bar, the menus are defined in Boot.scala by:&lt;/p&gt;
+
+&lt;p&gt;&lt;script src="https://gist.github.com/1817391.js?file=gistfile1.scala"&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+  
+  &lt;div class="more"&gt;
+    &lt;a href="/twitter-bootstrap-navbar-dropdowns-and-lifts" class="btn btn-small"&gt;read more..&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr/&gt;
+&lt;div class="post"&gt;
+  &lt;h2 class="title"&gt;&lt;a href="/diy-lift-crud-an-alternative-to-crudify"&gt;DIY Lift CRUD - an alternative to CRUDify&lt;/a&gt; &lt;/h2&gt;
+  &lt;div&gt;
+  &lt;p&gt;
+  &lt;span class="date"&gt;2012-07-21&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="summary ellipsis"&gt;
+&lt;p&gt;This article describes a simple approach for creating your own CRUD (Create, Read, Update, Delete) database screens in 
+&lt;a href="http://liftweb.net/"&gt;Lift&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id="toc_0"&gt;Why build your own CRUD screens?&lt;/h3&gt;
+
+&lt;p&gt;Lift has a useful trait, CRUDify, that automatically adds CRUD functionality to any class.&lt;br&gt;
+CRUDify is useful for rapid prototyping and can even be deployed to production where basic functionality is sufficient. &lt;/p&gt;
+
+&lt;p&gt;You can customise much of the default behaviour by overriding the CRUDify methods. 
+However, there is a practical limit to how far you can go with the customisation.&lt;/p&gt;
+
+&lt;p&gt;When your requirements diverge too much from the default CRUDify functionality, 
+you can easily find yourself trying to coerce CRUDify to perform in ways in which it was not designed to perform. 
+This can quickly lead to bloated, convoluted code that is hard to maintain. 
+At this point it is often easier to abandon CRUDify and write your CRUD screens from the ground up.&lt;/p&gt;
+
+&lt;h3 id="toc_1"&gt;What is covered?&lt;/h3&gt;
+
+&lt;p&gt;This article describes a simple approach for implementing a customised CRUD application.&lt;br&gt;
+It covers how to organise your application into folders, files, classes, and methods.  A naming convention is 
+provided for these artifacts as well as a simple model illustrating allowable screen transitions.  &lt;/p&gt;
+&lt;/div&gt;
+  
+  &lt;div class="more"&gt;
+    &lt;a href="/diy-lift-crud-an-alternative-to-crudify" class="btn btn-small"&gt;read more..&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr/&gt;
+&lt;div class="post"&gt;
+  &lt;h2 class="title"&gt;&lt;a href="/joel-spolsky-stack-exchange"&gt;Joel Spolsky &amp;amp; Stack Exchange&lt;/a&gt; &lt;/h2&gt;
+  &lt;div&gt;
+  &lt;p&gt;
+  &lt;span class="date"&gt;2012-02-22&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="summary"&gt;&lt;p&gt;&lt;span style=""&gt;Went to an interesting talk this week at Cambridge Network - Joel Spolsky from Stack Exchange, Joel on Software, etc fame. Stack Exchange has 20 million unique visitors per month, only 50 employees &amp;amp; Google use Stack Overflow as a benchmark: it isn't allowed to slip down the rankings after an algo tweak. Nice position to be in!&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;
+  
+  &lt;div class="more"&gt;
+    &lt;a href="/joel-spolsky-stack-exchange" class="btn btn-small"&gt;read more..&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr/&gt;
+&lt;div class="post"&gt;
+  &lt;h2 class="title"&gt;&lt;a href="/scala-sbt-template"&gt;Scala SBT Template&lt;/a&gt; &lt;/h2&gt;
+  &lt;div&gt;
+  &lt;p&gt;
+  &lt;span class="date"&gt;2012-02-15&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="summary"&gt;
+&lt;p&gt;Just posted a lightweight template to github for getting started with Scala &amp;amp; SBT: &lt;a href="https://github.com/dph01/scala-sbt-template"&gt;github.com/dph01/scala-sbt-template&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;It includes sbt-eclipse and templates for ScalaTest.&lt;/p&gt;
+&lt;/div&gt;
+  
+  &lt;div class="more"&gt;
+    &lt;a href="/scala-sbt-template" class="btn btn-small"&gt;read more..&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr/&gt;
+&lt;div class="post"&gt;
+  &lt;h2 class="title"&gt;&lt;a href="/understanding-lifts-requestvars"&gt;Understanding Lift&amp;#39;s RequestVar&lt;/a&gt; &lt;/h2&gt;
+  &lt;div&gt;
+  &lt;p&gt;
+  &lt;span class="date"&gt;2012-03-01&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="summary ellipsis"&gt;
+&lt;p&gt;This post aims to answer some of the questions I originally struggled with when I started using RequestVar's. I think I've got to grips with them sufficiently to help others who are wrestling with the same issue :-). So, here's my contribution to the Lift corpus ...&lt;/p&gt;
+
+&lt;p&gt;Consider the common use case, whereby when the user submits a form,  if the data fails validation, the data entered is re-presented to the user for correction.  The following common pattern meets this requirement by using a RequestVar to hold the state of the submitted data between requests.&lt;/p&gt;
+
+&lt;p&gt;The snippet:&lt;/p&gt;
+
+&lt;div class="CodeRay"&gt;
+  &lt;div class="code"&gt;&lt;pre&gt;class NameSnippet {
+
+  object nameRV extends RequestVar("")                // 1
+
+  def processSubmit() = {
+    // perform some simple validation
+    if (nameRV.is.length &amp;lt; 3) 
+      S.error("event name must be at least 3 characters")
+    else {
+      S.notice("name OK")
+      S.redirectTo("/")
+    }
+  }
+
+  def render = {
+    "#name" #&amp;gt; SHtml.text(nameRV.is, x =&amp;gt; nameRV(x) ) &amp;amp; // 2
+    "#submit" #&amp;gt; SHtml.onSubmitUnit(processSubmit)      // 3
+  }
+}&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+  
+  &lt;div class="more"&gt;
+    &lt;a href="/understanding-lifts-requestvars" class="btn btn-small"&gt;read more..&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr/&gt;
+
+&lt;div class="pagination"&gt;
+  &lt;ul&gt;
+      &lt;li class="active"&gt;&lt;a href="/post/index/1"&gt;1&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Pages</title>
+      <link>/pages</link>
+      <description>
+&lt;ul&gt;
+  
+    &lt;li&gt;&lt;a href="/about"&gt;About Me&lt;/a&gt;&lt;/li&gt;
+  
+  
+    &lt;li&gt;&lt;a href="/archive"&gt;Archive&lt;/a&gt;&lt;/li&gt;
+  
+  
+    &lt;li&gt;&lt;a href="/categories"&gt;Categories&lt;/a&gt;&lt;/li&gt;
+  
+  
+    &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  
+    &lt;li class="active"&gt;&lt;a href="/pages" class="active"&gt;Pages&lt;/a&gt;&lt;/li&gt;
+  
+  
+  
+    &lt;li&gt;&lt;a href="/projects"&gt;Projects&lt;/a&gt;&lt;/li&gt;
+  
+  
+    &lt;li&gt;&lt;a href="/tags"&gt;Tags&lt;/a&gt;&lt;/li&gt;
+  
+&lt;/ul&gt;
+</description>
+    </item>
+    <item>
+      <title>Projects</title>
+      <link>/projects</link>
+      <description>&lt;p&gt;Coming soon ..&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Tags</title>
+      <link>/tags</link>
+      <description>
+&lt;ul class="tag_box inline"&gt;
+&lt;/ul&gt;
+
+ 
 </description>
     </item>
   </channel>
